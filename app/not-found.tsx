@@ -1,15 +1,23 @@
+import { ButtonLink } from '@/components/marketing/Button';
+import { Container } from '@/components/marketing/Container';
 
-import React from 'react';
-import Link from 'next/link';
-
-const NotFoundPage = () => (
-    <div className="text-center py-40">
-        <h1 className="text-5xl font-extrabold text-nextwave-dark">404 - Page Not Found</h1>
-        <p className="mt-6 text-xl text-nextwave-gray">Sorry, the page you are looking for does not exist.</p>
-        <Link href="/" className="mt-10 inline-block transform rounded-full bg-nextwave-orange px-8 py-4 font-semibold text-white shadow-lg transition-all hover:scale-105 hover:bg-opacity-90">
-            Go Back to Home
-        </Link>
-    </div>
-);
-
-export default NotFoundPage;
+export default function NotFoundPage() {
+  return (
+    <Container className="py-32 text-center">
+      <p className="font-display text-sm font-semibold text-gnk-accent">404</p>
+      <h1 className="font-display mt-4 text-4xl font-bold text-gnk-fg sm:text-5xl">Page not found</h1>
+      <p className="mx-auto mt-4 max-w-md text-gnk-muted">
+        That URL may be outdated or mistyped. Start from the homepage or contact us if you need help finding
+        something specific.
+      </p>
+      <div className="mt-10 flex flex-wrap justify-center gap-3">
+        <ButtonLink href="/" variant="primary">
+          Back to home
+        </ButtonLink>
+        <ButtonLink href="/contact" variant="secondary">
+          Contact
+        </ButtonLink>
+      </div>
+    </Container>
+  );
+}
