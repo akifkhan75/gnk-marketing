@@ -1,5 +1,6 @@
 import { ButtonLink } from '@/components/marketing/Button';
 import { Container } from '@/components/marketing/Container';
+import { ProcessFlow } from '@/components/visuals';
 import { buildPageMetadata } from '@/lib/seo';
 
 export const metadata = buildPageMetadata({
@@ -35,21 +36,43 @@ export default function AboutPage() {
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-gnk-muted">
             GNK Marketing partners with marketing leaders who are tired of opaque reporting, channel silos, and endless
-            “activity.” We build systems: positioning that converts, channels that learn, and analytics that leadership
+            "activity." We build systems: positioning that converts, channels that learn, and analytics that leadership
             trusts.
           </p>
         </Container>
       </section>
+
+      {/* Process flow system diagram */}
+      <section className="border-b border-gnk-border/60 bg-gnk-card/20 py-14 dark:border-white/[0.05] dark:bg-gnk-card/10 sm:py-18">
+        <Container>
+          <p className="text-center font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-gnk-accent dark:text-violet-400/80">
+            How we work
+          </p>
+          <h2 className="mt-3 text-center font-display text-2xl font-bold text-gnk-fg sm:text-3xl">
+            Four stages. One compound system.
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-center text-gnk-muted">
+            Every engagement follows the same operating rhythm—from honest diagnosis to scalable compounding. No stage is optional.
+          </p>
+          <div className="mt-10">
+            <ProcessFlow />
+          </div>
+          <p className="mt-5 text-center font-mono text-[9px] uppercase tracking-[0.2em] text-gnk-muted/70">
+            Diagnose · Design · Ship · Compound — repeat
+          </p>
+        </Container>
+      </section>
+
       <section className="py-16 sm:py-20">
         <Container>
           <div className="grid gap-12 lg:grid-cols-2">
             <div>
               <h2 className="font-display text-2xl font-bold text-gnk-fg">What we believe</h2>
-              <p className="mt-4 text-gnk-muted leading-relaxed">
+              <p className="mt-4 leading-relaxed text-gnk-muted">
                 Marketing is not magic. It is disciplined experimentation under economic reality. The best teams know
                 their unit economics, protect brand trust, and scale what repeats—not what merely looks busy.
               </p>
-              <p className="mt-4 text-gnk-muted leading-relaxed">
+              <p className="mt-4 leading-relaxed text-gnk-muted">
                 We work across SEO, paid media, lifecycle marketing, CRO, and analytics because those pieces either
                 reinforce each other—or they fight each other. Our job is alignment.
               </p>
@@ -65,6 +88,7 @@ export default function AboutPage() {
           </div>
         </Container>
       </section>
+
       <section className="border-t border-gnk-border bg-gnk-card py-16 sm:py-20">
         <Container className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
           <div>

@@ -1,46 +1,131 @@
 'use client';
 
 import { motion, useReducedMotion } from 'framer-motion';
-import { RichSvgDefs } from '@/components/visuals/rich-svg-defs';
-import { reduced, useVisualIds } from '@/components/visuals/visual-utils';
+import { RichSvgDefs } from './rich-svg-defs';
+import { reduced, useVisualIds } from './visual-utils';
 
-const pathInL = 'M 108 298 C 188 215, 268 215, 368 278';
-const pathInR = 'M 732 298 C 652 215, 572 215, 472 278';
-const pathOut = 'M 420 348 C 420 412, 420 448, 420 518';
+/* ─── Path definitions ───────────────────────────────────────────── */
+const pathIn0 = 'M 114 104 C 220 104 318 178 390 224';
+const pathIn1 = 'M 114 196 C 222 196 318 212 390 232';
+const pathIn2 = 'M 114 288 C 222 288 318 260 390 246';
+const pathIn3 = 'M 114 376 C 220 376 316 306 390 254';
 
-/**
- * Premium hero: layered mesh, dual ingress, orbital synthesis, multi-egress lift.
- */
+const pathOut0 = 'M 450 224 C 544 202 650 162 724 144';
+const pathOut1 = 'M 450 240 C 544 240 650 240 724 240';
+const pathOut2 = 'M 450 256 C 544 272 650 316 724 336';
+
+const sources = [
+  { y: 104, label: 'WEB TRAFFIC', path: pathIn0, dur: '6s', delay: '0s', delay2: '2.1s' },
+  { y: 196, label: 'SEARCH INTENT', path: pathIn1, dur: '5.6s', delay: '0.4s', delay2: '2.5s' },
+  { y: 288, label: 'SOCIAL SIGNALS', path: pathIn2, dur: '6.4s', delay: '0.8s', delay2: '2.9s' },
+  { y: 376, label: 'CRM / EMAIL', path: pathIn3, dur: '5.8s', delay: '1.2s', delay2: '3.3s' },
+];
+
+const outputs = [
+  { y: 144, label: 'QUALIFIED LEADS', path: pathOut0, dur: '4.8s', delay: '0s' },
+  { y: 240, label: 'PIPELINE VALUE', path: pathOut1, dur: '4.4s', delay: '0.35s' },
+  { y: 336, label: 'REVENUE', path: pathOut2, dur: '5.2s', delay: '0.7s' },
+];
+
+const satAngles = [0, 60, 120, 180, 240, 300];
+const ease = [0.25, 0.4, 0.25, 1] as const;
+
+/* ─── Source node ────────────────────────────────────────────────── */
+function SourceNode({ y, label, reduce, bloomId }: { y: number; label: string; reduce: boolean; bloomId: string }) {
+  return (
+    <g transform={`translate(80 ${y})`}>
+      <circle r="32" fill="hsl(var(--gnk-accent-2)/0.07)" />
+      <circle r="24" fill="none" stroke="hsl(var(--gnk-accent-2))" strokeWidth="0.7" strokeDasharray="2.5 6" strokeOpacity="0.3" />
+      <circle r="17" fill="hsl(var(--gnk-bg-elevated)/0.92)" stroke="hsl(var(--gnk-accent-2)/0.45)" strokeWidth="1.15" />
+      {reduce ? null : (
+        <motion.circle
+          r="22"
+          fill="none"
+          stroke="hsl(var(--gnk-accent-2))"
+          strokeWidth="0.6"
+          strokeOpacity="0.22"
+          animate={{ opacity: [0.15, 0.45, 0.15] }}
+          transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      )}
+      <circle r="5" fill="hsl(var(--gnk-accent-2))" opacity="0.9" filter={`url(#${bloomId})`} />
+      <text
+        y="36"
+        textAnchor="middle"
+        fill="hsl(var(--gnk-muted))"
+        style={{ fontSize: 7.5, fontWeight: 700 }}
+        className="font-mono"
+        letterSpacing="0.08em"
+      >
+        {label}
+      </text>
+    </g>
+  );
+}
+
+/* ─── Output node ────────────────────────────────────────────────── */
+function OutputNode({ y, label, reduce, bloomId }: { y: number; label: string; reduce: boolean; bloomId: string }) {
+  return (
+    <g transform={`translate(758 ${y})`}>
+      <circle r="30" fill="hsl(var(--gnk-accent)/0.07)" />
+      <circle r="22" fill="none" stroke="hsl(var(--gnk-accent))" strokeWidth="0.7" strokeDasharray="2.5 6" strokeOpacity="0.3" />
+      <circle r="15" fill="hsl(var(--gnk-bg-elevated)/0.92)" stroke="hsl(var(--gnk-accent)/0.45)" strokeWidth="1.15" />
+      {reduce ? null : (
+        <motion.circle
+          r="20"
+          fill="none"
+          stroke="hsl(var(--gnk-accent))"
+          strokeWidth="0.6"
+          strokeOpacity="0.22"
+          animate={{ opacity: [0.1, 0.4, 0.1] }}
+          transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      )}
+      <circle r="4.5" fill="hsl(var(--gnk-accent))" opacity="0.9" filter={`url(#${bloomId})`} />
+      <text
+        y="33"
+        textAnchor="middle"
+        fill="hsl(var(--gnk-muted))"
+        style={{ fontSize: 7.5, fontWeight: 700 }}
+        className="font-mono"
+        letterSpacing="0.08em"
+      >
+        {label}
+      </text>
+    </g>
+  );
+}
+
+/* ─── Main component ─────────────────────────────────────────────── */
 export function HeroAnimation({
   className = '',
   decorative = false,
   showBackdrop = true,
 }: {
   className?: string;
-  /** When used as a background layer; disables role/label. */
   decorative?: boolean;
-  /** Controls the external radial backdrop layer. */
   showBackdrop?: boolean;
 }) {
   const reduceMotion = useReducedMotion();
   const reduce = reduced(reduceMotion);
   const id = useVisualIds('hero');
 
-  const satAngles = [0, 60, 120, 180, 240, 300];
-
   return (
     <div
-      className={`relative mx-auto w-full max-w-[min(100%,760px)] lg:max-w-none ${className}`}
+      className={`relative mx-auto w-full max-w-[min(100%,800px)] lg:max-w-none ${className}`}
       {...(decorative
         ? { 'aria-hidden': true }
-        : { role: 'img', 'aria-label': 'Animation showing traffic flowing into an AI core and converting to revenue' })}
+        : {
+            role: 'img',
+            'aria-label': 'AI system: traffic sources flow into an AI processing core and emerge as qualified leads, pipeline value, and revenue',
+          })}
     >
-      {showBackdrop ? (
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_72%_58%_at_50%_42%,hsl(var(--gnk-accent)/0.1),transparent_62%)] dark:bg-[radial-gradient(ellipse_68%_52%_at_50%_40%,rgb(139_92_246/0.14),transparent_65%)]" />
-      ) : null}
+      {showBackdrop && (
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_68%_55%_at_50%_45%,hsl(var(--gnk-accent)/0.09),transparent_60%)] dark:bg-[radial-gradient(ellipse_65%_52%_at_50%_42%,rgb(139_92_246/0.13),transparent_65%)]" />
+      )}
 
       <svg
-        viewBox="0 0 840 560"
+        viewBox="0 0 838 480"
         className="relative z-[1] h-auto w-full"
         fill="none"
         shapeRendering="geometricPrecision"
@@ -48,277 +133,210 @@ export function HeroAnimation({
       >
         <RichSvgDefs id={id} />
 
-        <rect width="100%" height="100%" fill={`url(#${id.flow}-hex)`} opacity="0.85" />
-        <rect width="100%" height="100%" fill={`url(#${id.flow}-grid)`} opacity="0.45" />
+        {/* Background mesh */}
+        <rect width="100%" height="100%" fill={`url(#${id.flow}-hex)`} opacity="0.7" />
+        <rect width="100%" height="100%" fill={`url(#${id.flow}-grid)`} opacity="0.38" />
 
-        {/* Distant orbit guides */}
-        <g opacity="0.35">
-          <ellipse
-            cx="420"
-            cy="285"
-            rx="200"
-            ry="118"
-            stroke="hsl(var(--gnk-accent-2))"
-            strokeWidth="0.6"
-            strokeDasharray="4 14"
-            fill="none"
-            transform="rotate(-12 420 285)"
-          />
-          <ellipse
-            cx="420"
-            cy="285"
-            rx="168"
-            ry="98"
-            stroke="hsl(var(--gnk-accent))"
-            strokeWidth="0.5"
-            strokeDasharray="2 10"
-            fill="none"
-            transform="rotate(8 420 285)"
-          />
-        </g>
+        {/* AI Core backdrop glow */}
+        <ellipse cx="419" cy="240" rx="130" ry="120" fill={`url(#${id.core})`} opacity="0.35" filter={`url(#${id.bloom})`} />
 
-        {/* Ingress constellation */}
-        <g opacity="0.9">
-          {[
-            [84, 248],
-            [102, 278],
-            [84, 308],
-            [66, 278],
-            [96, 322],
-          ].map(([x, y], i) => (
-            <circle key={i} cx={x} cy={y} r={i === 1 ? 5.5 : 4.2} fill="hsl(var(--gnk-accent-2))" opacity={0.28 + i * 0.1} />
-          ))}
+        {/* ── Input path glows (underglow) ── */}
+        {sources.map((s, i) => (
           <path
-            d="M 66 278 L 96 248 M 84 248 L 102 278 M 102 278 L 84 308"
-            stroke="hsl(var(--gnk-accent-2))"
-            strokeWidth="0.55"
-            strokeOpacity="0.25"
+            key={`ig-${i}`}
+            d={s.path}
+            stroke={`url(#${id.flow2})`}
+            strokeWidth="6"
+            strokeLinecap="round"
+            fill="none"
+            opacity="0.65"
           />
-        </g>
-        <text
-          x="92"
-          y="382"
-          textAnchor="middle"
-          fill="hsl(var(--gnk-muted))"
-          style={{ fontSize: 10, fontWeight: 600 }}
-          className="font-mono uppercase tracking-wider"
-        >
-          Traffic
-        </text>
+        ))}
 
-        <g transform="translate(748 278)" opacity="0.85">
-          {[0, 1, 2, 3].map((i) => (
-            <circle key={i} cx={i * 9 - 13} cy={Math.sin(i) * 6} r="3.8" fill="hsl(var(--gnk-accent))" opacity={0.2 + i * 0.14} />
-          ))}
-        </g>
-        <text
-          x="748"
-          y="382"
-          textAnchor="middle"
-          fill="hsl(var(--gnk-muted))"
-          style={{ fontSize: 10, fontWeight: 600 }}
-          className="font-mono uppercase tracking-wider"
-        >
-          Signal
-        </text>
+        {/* ── Input paths (draw animation) ── */}
+        {sources.map((s, i) => (
+          <motion.path
+            key={`ip-${i}`}
+            d={s.path}
+            stroke={`url(#${id.flow})`}
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            fill="none"
+            vectorEffect="non-scaling-stroke"
+            filter={`url(#${id.filterSoft})`}
+            initial={reduce ? undefined : { pathLength: 0, opacity: 0.5 }}
+            animate={reduce ? undefined : { pathLength: 1, opacity: 0.95 }}
+            transition={{ duration: 1.4, delay: i * 0.1, ease }}
+          />
+        ))}
 
-        {/* Underglow paths */}
-        <path
-          d={pathInL}
-          stroke={`url(#${id.flow2})`}
-          strokeWidth="5"
-          strokeLinecap="round"
-          fill="none"
-          opacity="0.9"
-        />
-        <path
-          d={pathInR}
-          stroke={`url(#${id.flow2})`}
-          strokeWidth="5"
-          strokeLinecap="round"
-          fill="none"
-          opacity="0.9"
-        />
+        {/* ── Output path glows ── */}
+        {outputs.map((o, i) => (
+          <path
+            key={`og-${i}`}
+            d={o.path}
+            stroke={`url(#${id.flow2})`}
+            strokeWidth="6"
+            strokeLinecap="round"
+            fill="none"
+            opacity="0.55"
+          />
+        ))}
 
-        <motion.path
-          d={pathInL}
-          stroke={`url(#${id.flow})`}
-          strokeWidth="2.25"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          vectorEffect="non-scaling-stroke"
-          fill="none"
-          filter={`url(#${id.filterSoft})`}
-          initial={reduce ? undefined : { pathLength: 0, opacity: 0.45 }}
-          animate={reduce ? undefined : { pathLength: 1, opacity: 1 }}
-          transition={{ duration: 1.45, ease: [0.25, 0.4, 0.25, 1] }}
-        />
-        <motion.path
-          d={pathInR}
-          stroke={`url(#${id.flow})`}
-          strokeWidth="2.25"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          vectorEffect="non-scaling-stroke"
-          fill="none"
-          filter={`url(#${id.filterSoft})`}
-          initial={reduce ? undefined : { pathLength: 0, opacity: 0.45 }}
-          animate={reduce ? undefined : { pathLength: 1, opacity: 1 }}
-          transition={{ duration: 1.45, delay: 0.14, ease: [0.25, 0.4, 0.25, 1] }}
-        />
+        {/* ── Output paths (draw animation) ── */}
+        {outputs.map((o, i) => (
+          <motion.path
+            key={`op-${i}`}
+            d={o.path}
+            stroke={`url(#${id.flow})`}
+            strokeWidth="1.75"
+            strokeLinecap="round"
+            fill="none"
+            vectorEffect="non-scaling-stroke"
+            filter={`url(#${id.filterSoft})`}
+            initial={reduce ? undefined : { pathLength: 0, opacity: 0 }}
+            animate={reduce ? undefined : { pathLength: 1, opacity: 0.9 }}
+            transition={{ duration: 1.35, delay: 0.58 + i * 0.1, ease }}
+          />
+        ))}
 
-        {!reduce ? (
+        {/* ── Orbital rings ── */}
+        {reduce ? (
           <>
-            <circle r="4.5" fill="hsl(var(--gnk-accent-2))" opacity="0.95" filter={`url(#${id.bloom})`}>
-              <animateMotion dur="4.8s" repeatCount="indefinite" path={pathInL} />
-            </circle>
-            <circle r="3.8" fill="hsl(var(--gnk-accent))" opacity="0.88">
-              <animateMotion dur="4.8s" repeatCount="indefinite" path={pathInR} begin="0.75s" />
-            </circle>
-            <circle r="2.5" fill="hsl(var(--gnk-fg))" opacity="0.35">
-              <animateMotion dur="4.8s" repeatCount="indefinite" path={pathInL} begin="1.1s" />
-            </circle>
+            <circle cx="419" cy="240" r="100" fill="none" stroke="hsl(var(--gnk-accent-2))" strokeWidth="0.6" strokeDasharray="3 12" strokeOpacity="0.3" />
+            <circle cx="419" cy="240" r="82" fill="none" stroke="hsl(var(--gnk-accent))" strokeWidth="0.5" strokeDasharray="2 8" strokeOpacity="0.2" />
           </>
-        ) : null}
-
-        {/* AI core stack */}
-        <g transform="translate(420 285)">
-          <circle r="92" fill={`url(#${id.core})`} opacity="0.55" filter={`url(#${id.bloom})`} />
-          <circle r="78" fill="none" stroke="hsl(var(--gnk-accent))" strokeWidth="0.4" strokeOpacity="0.12" />
-
-          {!reduce ? (
-            <>
-              <circle r="118" fill="none" stroke="hsl(var(--gnk-accent-2))" strokeWidth="0.65" strokeDasharray="3 10" strokeOpacity="0.38">
-                <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="52s" repeatCount="indefinite" />
+        ) : (
+          <>
+            <g transform="translate(419 240)">
+              <circle r="100" fill="none" stroke="hsl(var(--gnk-accent-2))" strokeWidth="0.65" strokeDasharray="3.5 14" strokeOpacity="0.38">
+                <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="50s" repeatCount="indefinite" />
               </circle>
-              <circle r="86" fill="none" stroke="hsl(var(--gnk-accent))" strokeWidth="0.55" strokeDasharray="2 8" strokeOpacity="0.22">
-                <animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="38s" repeatCount="indefinite" />
+            </g>
+            <g transform="translate(419 240)">
+              <circle r="82" fill="none" stroke="hsl(var(--gnk-accent))" strokeWidth="0.5" strokeDasharray="2 9" strokeOpacity="0.24">
+                <animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="36s" repeatCount="indefinite" />
               </circle>
-            </>
-          ) : (
-            <circle r="86" fill="none" stroke="hsl(var(--gnk-accent-2))" strokeWidth="0.55" strokeDasharray="3 10" strokeOpacity="0.22" />
-          )}
+            </g>
+          </>
+        )}
 
+        {/* ── AI Core ── */}
+        <g transform="translate(419 240)">
+          {/* Core body */}
+          <circle r="66" fill="hsl(var(--gnk-bg-elevated)/0.82)" stroke="hsl(var(--gnk-accent)/0.22)" strokeWidth="0.8" />
+
+          {/* Rotating hexagon */}
           <motion.g
             animate={reduce ? undefined : { rotate: 360 }}
-            transition={{ duration: 64, repeat: Infinity, ease: 'linear' }}
+            transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
           >
             <polygon
-              points="-44,-26 0,-52 44,-26 44,26 0,52 -44,26"
-              fill="hsl(var(--gnk-accent) / 0.1)"
-              stroke="hsl(var(--gnk-accent) / 0.45)"
-              strokeWidth="1.15"
+              points="-46,-27 0,-54 46,-27 46,27 0,54 -46,27"
+              fill="hsl(var(--gnk-accent)/0.07)"
+              stroke="hsl(var(--gnk-accent)/0.38)"
+              strokeWidth="1"
             />
           </motion.g>
 
-          {satAngles.map((deg, i) => {
-            const r = 56;
+          {/* Satellite nodes on orbit r=82 */}
+          {satAngles.map((deg) => {
+            const r = 82;
             const rad = (deg * Math.PI) / 180;
-            const x = Math.cos(rad) * r;
-            const y = Math.sin(rad) * r;
+            const sx = Math.cos(rad) * r;
+            const sy = Math.sin(rad) * r;
             return (
-              <g key={deg}>
-                <line x1="0" y1="0" x2={x} y2={y} stroke="hsl(var(--gnk-accent-2))" strokeWidth="0.45" strokeOpacity="0.22" />
-                <circle cx={x} cy={y} r="3.2" fill="hsl(var(--gnk-bg-elevated))" stroke="hsl(var(--gnk-accent-2))" strokeWidth="0.85" opacity="0.9" />
+              <g key={deg} transform={`translate(${sx} ${sy})`}>
+                <line x1={-sx * 0.8} y1={-sy * 0.8} x2="0" y2="0" stroke="hsl(var(--gnk-accent-2))" strokeWidth="0.4" strokeOpacity="0.18" />
+                <circle r="4.5" fill="hsl(var(--gnk-bg-elevated))" stroke="hsl(var(--gnk-accent-2))" strokeWidth="0.85" opacity="0.95" />
+                <circle r="1.8" fill="hsl(var(--gnk-accent-2))" opacity="0.75" />
               </g>
             );
           })}
 
-          {!reduce ? (
+          {/* Inner processing ring */}
+          <circle r="54" fill="none" stroke="hsl(var(--gnk-accent)/0.18)" strokeWidth="0.7" />
+
+          {/* Pulsing ring */}
+          {reduce ? (
+            <circle r="58" fill="none" stroke="hsl(var(--gnk-accent-2))" strokeWidth="0.6" strokeOpacity="0.2" />
+          ) : (
             <motion.circle
               r="58"
               fill="none"
               stroke="hsl(var(--gnk-accent-2))"
               strokeWidth="0.7"
-              strokeOpacity="0.45"
-              animate={{ opacity: [0.2, 0.55, 0.2] }}
-              transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }}
+              strokeOpacity="0.4"
+              animate={{ opacity: [0.15, 0.5, 0.15] }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
             />
-          ) : (
-            <circle r="58" fill="none" stroke="hsl(var(--gnk-accent-2))" strokeWidth="0.7" strokeOpacity="0.28" />
           )}
 
-          <circle r="14" fill="hsl(var(--gnk-bg-elevated))" stroke="hsl(var(--gnk-accent))" strokeWidth="1.65" filter={`url(#${id.filterSoft})`} />
-          <path d="M-18 0 H18 M0 -18 V18" stroke="hsl(var(--gnk-accent-2))" strokeWidth="1.05" strokeOpacity="0.6" />
+          {/* Core hub */}
+          <circle r="18" fill="hsl(var(--gnk-bg-elevated))" stroke="hsl(var(--gnk-accent))" strokeWidth="1.55" filter={`url(#${id.filterSoft})`} />
+
+          {/* Crosshair */}
+          <path d="M-22 0 H22 M0 -22 V22" stroke="hsl(var(--gnk-accent-2))" strokeWidth="1" strokeOpacity="0.55" />
+
+          {/* Center glow dot */}
+          <circle r="5" fill="hsl(var(--gnk-accent))" opacity="0.9" filter={`url(#${id.bloom})`} />
+
+          {/* Label */}
+          <text
+            y="90"
+            textAnchor="middle"
+            fill="hsl(var(--gnk-muted))"
+            style={{ fontSize: 8, fontWeight: 700 }}
+            className="font-mono"
+            letterSpacing="0.1em"
+          >
+            AI PROCESSING CORE
+          </text>
         </g>
 
-        <text
-          x="420"
-          y="382"
-          textAnchor="middle"
-          fill="hsl(var(--gnk-muted))"
-          style={{ fontSize: 10, fontWeight: 600 }}
-          className="font-mono uppercase tracking-wider"
-        >
-          AI core
+        {/* ── Source nodes ── */}
+        {sources.map((s) => (
+          <SourceNode key={s.label} y={s.y} label={s.label} reduce={reduce} bloomId={id.bloom} />
+        ))}
+
+        {/* ── Output nodes ── */}
+        {outputs.map((o) => (
+          <OutputNode key={o.label} y={o.y} label={o.label} reduce={reduce} bloomId={id.bloom} />
+        ))}
+
+        {/* ── Input particles ── */}
+        {!reduce && sources.flatMap((s) => [
+          <circle key={`${s.label}-p1`} r="3.8" fill="hsl(var(--gnk-accent-2))" opacity="0.92" filter={`url(#${id.bloom})`}>
+            <animateMotion dur={s.dur} repeatCount="indefinite" path={s.path} begin={s.delay} />
+          </circle>,
+          <circle key={`${s.label}-p2`} r="2.6" fill="hsl(var(--gnk-accent))" opacity="0.7">
+            <animateMotion dur={s.dur} repeatCount="indefinite" path={s.path} begin={s.delay2} />
+          </circle>,
+        ])}
+
+        {/* ── Output particles ── */}
+        {!reduce && outputs.flatMap((o) => [
+          <circle key={`${o.label}-p1`} r="3.5" fill="hsl(var(--gnk-accent))" opacity="0.88" filter={`url(#${id.bloom})`}>
+            <animateMotion dur={o.dur} repeatCount="indefinite" path={o.path} begin={o.delay} />
+          </circle>,
+          <circle key={`${o.label}-p2`} r="2.2" fill="hsl(var(--gnk-fg))" opacity="0.35">
+            <animateMotion dur={o.dur} repeatCount="indefinite" path={o.path} begin={`${parseFloat(o.delay) + 1.8}s`} />
+          </circle>,
+        ])}
+
+        {/* ── Divider lines ── */}
+        <line x1="148" y1="48" x2="148" y2="432" stroke="hsl(var(--gnk-border))" strokeWidth="0.5" strokeOpacity="0.4" strokeDasharray="2 8" />
+        <line x1="690" y1="48" x2="690" y2="432" stroke="hsl(var(--gnk-border))" strokeWidth="0.5" strokeOpacity="0.4" strokeDasharray="2 8" />
+
+        {/* ── Section labels ── */}
+        <text x="80" y="462" textAnchor="middle" fill="hsl(var(--gnk-muted))" style={{ fontSize: 7.5, fontWeight: 700 }} className="font-mono" letterSpacing="0.1em" opacity="0.6">
+          SIGNAL IN
         </text>
-
-        <path d={pathOut} stroke={`url(#${id.flow2})`} strokeWidth="5" strokeLinecap="round" fill="none" opacity="0.75" />
-        <motion.path
-          d={pathOut}
-          stroke={`url(#${id.flow})`}
-          strokeWidth="2.1"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          vectorEffect="non-scaling-stroke"
-          fill="none"
-          strokeDasharray="9 14"
-          className={reduce ? '' : 'animate-ai-flow-dash'}
-          initial={reduce ? undefined : { opacity: 0 }}
-          animate={reduce ? undefined : { opacity: 0.92 }}
-          transition={{ delay: 0.55, duration: 0.55 }}
-        />
-        {!reduce ? (
-          <>
-            <circle r="4" fill="hsl(var(--gnk-accent-2))" filter={`url(#${id.bloom})`}>
-              <animateMotion dur="3.4s" repeatCount="indefinite" path={pathOut} />
-            </circle>
-            <circle r="2.4" fill="hsl(var(--gnk-fg))" opacity="0.4">
-              <animateMotion dur="3.4s" repeatCount="indefinite" path={pathOut} begin="0.5s" />
-            </circle>
-          </>
-        ) : null}
-
-        {/* Revenue motif — settlement node + receipts (more \"real\" than an arrow chart) */}
-        <g transform="translate(420 538)">
-          <rect x="-130" y="-54" width="260" height="70" rx="14" fill="hsl(var(--gnk-bg-elevated) / 0.28)" stroke="hsl(var(--gnk-border))" strokeWidth="0.7" opacity="0.9" />
-          <rect x="-122" y="-46" width="244" height="54" rx="11" fill="hsl(var(--gnk-accent) / 0.05)" opacity="0.95" />
-          <path
-            d="M-92 -10 C-62 -28 -36 -30 -8 -24 C18 -18 48 -24 84 -40"
-            stroke={`url(#${id.flow})`}
-            strokeWidth="2.15"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            vectorEffect="non-scaling-stroke"
-            filter={`url(#${id.filterSoft})`}
-            opacity="0.95"
-          />
-          <path
-            d="M-92 -10 C-62 -28 -36 -30 -8 -24 C18 -18 48 -24 84 -40"
-            stroke={`url(#${id.flow2})`}
-            strokeWidth="6"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            opacity="0.55"
-          />
-          <g transform="translate(104 -26)">
-            <circle r="16" fill="hsl(var(--gnk-bg-elevated))" stroke="hsl(var(--gnk-accent-2))" strokeWidth="1.25" filter={`url(#${id.bloom})`} />
-            <path d="M-5 0 H5 M0 -5 V5" stroke="hsl(var(--gnk-accent))" strokeWidth="1.1" strokeOpacity="0.65" />
-          </g>
-          {[[-114, -26], [-108, -6], [-100, -40]].map(([x, y], i) => (
-            <circle key={i} cx={x} cy={y} r={i === 1 ? 3.6 : 3.1} fill="hsl(var(--gnk-accent-2))" opacity={0.35 + i * 0.12} />
-          ))}
-          <path d="M-38 -40 H-10 M-38 -28 H 6 M-38 -16 H 22" stroke="hsl(var(--gnk-border))" strokeWidth="1" strokeLinecap="round" opacity="0.55" />
-        </g>
-        <text
-          x="420"
-          y="548"
-          textAnchor="middle"
-          fill="hsl(var(--gnk-muted))"
-          style={{ fontSize: 10, fontWeight: 600 }}
-          className="font-mono uppercase tracking-wider"
-        >
-          Revenue
+        <text x="419" y="462" textAnchor="middle" fill="hsl(var(--gnk-muted))" style={{ fontSize: 7.5, fontWeight: 700 }} className="font-mono" letterSpacing="0.1em" opacity="0.6">
+          MODEL LAYER
+        </text>
+        <text x="758" y="462" textAnchor="middle" fill="hsl(var(--gnk-muted))" style={{ fontSize: 7.5, fontWeight: 700 }} className="font-mono" letterSpacing="0.1em" opacity="0.6">
+          REVENUE OUT
         </text>
       </svg>
     </div>

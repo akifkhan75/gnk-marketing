@@ -140,3 +140,41 @@
     animation: none;
   }
 }
+
+/* Node pulse (soft breathing glow) */
+@keyframes node-pulse {
+  0%, 100% { opacity: 0.12; transform: scale(1); }
+  50%       { opacity: 0.45; transform: scale(1.06); }
+}
+.animate-node-pulse {
+  animation: node-pulse 3.2s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+/* Scan beam (horizontal sweep across a panel) */
+@keyframes scan-beam {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+.animate-scan-beam {
+  animation: scan-beam 3.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Data stream ticker (continuous horizontal drift) */
+@keyframes data-stream {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+.animate-data-stream {
+  animation: data-stream 18s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-node-pulse,
+  .animate-scan-beam,
+  .animate-data-stream {
+    animation: none !important;
+  }
+}

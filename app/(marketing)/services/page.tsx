@@ -66,6 +66,22 @@ export default function ServicesPage() {
             </p>
             <span className="mt-4 inline-block text-sm font-semibold text-gnk-accent">Open AI systems hub →</span>
           </Link>
+          <Link
+            href="/real-estate-growth-system"
+            className="mt-6 block rounded-3xl border border-gnk-accent-2/35 bg-gnk-card/80 p-6 transition hover:border-gnk-accent-2/60 hover:shadow-glow sm:p-8"
+          >
+            <p className="font-display text-sm font-semibold uppercase tracking-wider text-gnk-accent-2">
+              Premium offering
+            </p>
+            <p className="mt-2 font-display text-xl font-bold text-gnk-fg sm:text-2xl">
+              AI-Powered Real Estate Growth System
+            </p>
+            <p className="mt-2 text-sm text-gnk-muted">
+              A product-style marketing system: AI Property Assistant, interactive funnels, WhatsApp automation, Reels/Shorts, retargeting,
+              investor campaigns, 360 tours, and pre-launch orchestration.
+            </p>
+            <span className="mt-4 inline-block text-sm font-semibold text-gnk-accent-2">View the system map →</span>
+          </Link>
         </Container>
       </section>
       <section className="py-16 sm:py-20">
