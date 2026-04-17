@@ -1,7 +1,0 @@
-{
-  "headers": {
-    "x-nextjs-stale-time": "300",
-    "x-nextjs-prerender": "1",
-    "x-next-cache-tags": "_N_T_/layout,_N_T_/(marketing)/layout,_N_T_/(marketing)/services/layout,_N_T_/(marketing)/services/ai/layout,_N_T_/(marketing)/services/ai/[slug]/layout,_N_T_/(marketing)/services/ai/[slug]/page,_N_T_/services/ai/ai-marketing-automation"
-  }
-}

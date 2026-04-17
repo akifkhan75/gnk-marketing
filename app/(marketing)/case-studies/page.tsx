@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { ButtonLink } from '@/components/marketing/Button';
 import { Container } from '@/components/marketing/Container';
+import { DataStream } from '@/components/visuals';
+import { GlowCard } from '@/components/premium/GlowCard';
 import { buildPageMetadata } from '@/lib/seo';
 
 export const metadata = buildPageMetadata({
@@ -64,7 +66,10 @@ export default function CaseStudiesPage() {
     <>
       <section className="border-b border-gnk-border py-16 sm:py-20">
         <Container>
-          <h1 className="font-display max-w-3xl text-4xl font-bold tracking-tight text-gnk-fg sm:text-5xl">
+          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-gnk-accent dark:text-violet-400/80">
+            Case studies
+          </p>
+          <h1 className="font-display mt-3 max-w-3xl text-4xl font-bold tracking-tight text-gnk-fg sm:text-5xl">
             Proof in patterns—not promises.
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-gnk-muted">
@@ -81,19 +86,41 @@ export default function CaseStudiesPage() {
           </div>
         </Container>
       </section>
+
+      {/* Live signal data stream visual */}
+      <section className="border-b border-gnk-border/60 bg-gnk-card/20 py-12 dark:border-white/[0.05] dark:bg-gnk-card/10 sm:py-16">
+        <Container>
+          <p className="text-center font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-gnk-accent dark:text-violet-400/80">
+            Signal layer
+          </p>
+          <h2 className="mt-2 text-center font-display text-xl font-bold text-gnk-fg sm:text-2xl">
+            Every result starts with clean measurement.
+          </h2>
+          <p className="mx-auto mt-3 max-w-lg text-center text-sm text-gnk-muted">
+            Before we optimize anything, we make every signal channel legible and trustworthy.
+          </p>
+          <div className="mt-8">
+            <DataStream />
+          </div>
+          <p className="mt-4 text-center font-mono text-[9px] uppercase tracking-[0.2em] text-gnk-muted/60">
+            Continuous ingestion · cross-channel attribution · pipeline-tied reporting
+          </p>
+        </Container>
+      </section>
+
       <section className="border-b border-gnk-border bg-gnk-card py-16 sm:py-20">
         <Container>
-          <h2 className="font-display text-2xl font-bold text-gnk-fg">AI automation impact</h2>
+          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-gnk-accent dark:text-violet-400/80">
+            AI automation impact
+          </p>
+          <h2 className="mt-2 font-display text-2xl font-bold text-gnk-fg">AI automation impact</h2>
           <p className="mt-3 max-w-2xl text-gnk-muted">
             Representative patterns from engagements where the primary lever was replacing manual follow-up, creative
             production, or routing with measured automation—not novelty for its own sake.
           </p>
           <div className="mt-10 grid gap-6 lg:grid-cols-2">
             {aiStudies.map((s) => (
-              <article
-                key={s.title}
-                className="flex flex-col rounded-3xl border border-gnk-border bg-gnk-bg p-8 shadow-card"
-              >
+              <GlowCard key={s.title}>
                 <p className="text-xs font-semibold uppercase tracking-wider text-gnk-accent">{s.industry}</p>
                 <h3 className="font-display mt-3 text-xl font-bold text-gnk-fg">{s.title}</h3>
                 <p className="mt-4 flex-1 text-sm leading-relaxed text-gnk-muted">{s.summary}</p>
@@ -104,7 +131,7 @@ export default function CaseStudiesPage() {
                     </li>
                   ))}
                 </ul>
-              </article>
+              </GlowCard>
             ))}
           </div>
           <p className="mt-8 text-sm text-gnk-muted">
@@ -115,18 +142,19 @@ export default function CaseStudiesPage() {
           </p>
         </Container>
       </section>
+
       <section className="py-16 sm:py-20">
         <Container>
-          <h2 className="font-display text-2xl font-bold text-gnk-fg">Marketing & growth programs</h2>
+          <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-gnk-accent dark:text-violet-400/80">
+            Full-funnel programs
+          </p>
+          <h2 className="mt-2 font-display text-2xl font-bold text-gnk-fg">Marketing & growth programs</h2>
           <p className="mt-3 text-gnk-muted">SEO, local, paid media, CRO, and analytics engagements.</p>
           <div className="mt-10 grid gap-6 lg:grid-cols-2">
             {studies.map((s) => (
-              <article
-                key={s.title}
-                className="flex flex-col rounded-3xl border border-gnk-border bg-gnk-card p-8 shadow-card"
-              >
+              <GlowCard key={s.title}>
                 <p className="text-xs font-semibold uppercase tracking-wider text-gnk-accent">{s.industry}</p>
-                <h2 className="font-display mt-3 text-xl font-bold text-gnk-fg">{s.title}</h2>
+                <h3 className="font-display mt-3 text-xl font-bold text-gnk-fg">{s.title}</h3>
                 <p className="mt-4 flex-1 text-sm leading-relaxed text-gnk-muted">{s.summary}</p>
                 <ul className="mt-6 space-y-2 border-t border-gnk-border pt-6">
                   {s.metrics.map((m) => (
@@ -135,7 +163,7 @@ export default function CaseStudiesPage() {
                     </li>
                   ))}
                 </ul>
-              </article>
+              </GlowCard>
             ))}
           </div>
         </Container>

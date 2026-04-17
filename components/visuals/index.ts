@@ -1,8 +1,11 @@
 export { AIFlowVisual } from './AIFlowVisual';
 export { AnalyticsStreamVisual } from './AnalyticsStreamVisual';
 export { AutomationPipeline } from './AutomationPipeline';
+export { ContactBackground } from './ContactBackground';
 export { ConversationGraphVisual } from './ConversationGraphVisual';
+export { DataStream } from './DataStream';
 export { FunnelDiagram } from './FunnelDiagram';
 export { GrowthGraphVisual } from './GrowthGraphVisual';
 export { HeroAnimation } from './HeroAnimation';
 export { LeadFlowVisual } from './LeadFlowVisual';
+export { ProcessFlow } from './ProcessFlow';

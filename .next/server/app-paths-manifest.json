@@ -1,16 +1,3 @@
 {
-  "/terms-of-service/page": "app/terms-of-service/page.js",
-  "/privacy-policy/page": "app/privacy-policy/page.js",
-  "/(marketing)/page": "app/(marketing)/page.js",
-  "/(marketing)/about/page": "app/(marketing)/about/page.js",
-  "/(marketing)/case-studies/page": "app/(marketing)/case-studies/page.js",
-  "/(marketing)/services/[slug]/page": "app/(marketing)/services/[slug]/page.js",
-  "/(marketing)/services/page": "app/(marketing)/services/page.js",
-  "/(marketing)/services/ai/page": "app/(marketing)/services/ai/page.js",
-  "/(marketing)/pricing/page": "app/(marketing)/pricing/page.js",
-  "/(marketing)/contact/page": "app/(marketing)/contact/page.js",
-  "/(marketing)/free-ai-audit/page": "app/(marketing)/free-ai-audit/page.js",
-  "/(marketing)/blog/page": "app/(marketing)/blog/page.js",
-  "/(marketing)/free-audit/page": "app/(marketing)/free-audit/page.js",
-  "/(marketing)/services/ai/[slug]/page": "app/(marketing)/services/ai/[slug]/page.js"
+  "/(marketing)/page": "app/(marketing)/page.js"
 }

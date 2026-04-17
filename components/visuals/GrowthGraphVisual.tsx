@@ -1,32 +1,46 @@
 'use client';
 
 import { motion, useReducedMotion } from 'framer-motion';
-import { RichSvgDefs } from '@/components/visuals/rich-svg-defs';
-import { reduced, useVisualIds } from '@/components/visuals/visual-utils';
+import { RichSvgDefs } from './rich-svg-defs';
+import { reduced, useVisualIds } from './visual-utils';
 
-type GrowthGraphVisualProps = {
-  className?: string;
-};
+type GrowthGraphVisualProps = { className?: string };
 
-const ring = {
-  cx: 168,
-  cy: 78,
-  r: 44,
-};
+const ease = [0.25, 0.4, 0.25, 1] as const;
 
-const sweep = 'M 252 112 C 296 92 318 70 346 46 C 366 28 398 24 424 30';
-const traceA = 'M 252 112 C 288 96 316 84 346 68 C 370 56 398 54 428 60';
-const traceB = 'M 252 112 C 286 104 318 98 350 90 C 376 84 402 84 432 88';
+/* Growth trajectory path (compound curve) */
+const sweepMain = 'M 52 126 C 100 112 140 100 182 84 C 220 70 252 54 292 40 C 328 28 360 20 400 14 C 430 10 458 12 488 10';
+const sweepB = 'M 52 136 C 104 124 148 114 192 98 C 232 84 264 72 302 58 C 338 46 368 40 408 36';
+const sweepC = 'M 52 148 C 108 140 156 130 202 116 C 244 104 278 94 320 82 C 356 72 388 66 424 64';
 
-/** Trust / outcomes visual: stable ring + aligned traces (no badges). */
+/* Expanding network nodes */
+const networkNodes: { x: number; y: number; r: number; hub?: boolean }[] = [
+  { x: 52, y: 130, r: 9, hub: true },
+  { x: 130, y: 100, r: 7 },
+  { x: 220, y: 68, r: 7 },
+  { x: 310, y: 42, r: 8 },
+  { x: 400, y: 18, r: 10, hub: true },
+  { x: 488, y: 14, r: 7 },
+  { x: 170, y: 118, r: 5 },
+  { x: 270, y: 80, r: 5 },
+  { x: 360, y: 54, r: 5 },
+  { x: 450, y: 26, r: 6 },
+];
+
+/* Network connections between nodes */
+const netEdges: [number, number][] = [
+  [0, 1], [1, 2], [2, 3], [3, 4], [4, 5],
+  [1, 6], [2, 6], [2, 7], [3, 7], [3, 8], [4, 8], [4, 9], [5, 9],
+];
+
 export function GrowthGraphVisual({ className = '' }: GrowthGraphVisualProps) {
   const reduce = reduced(useReducedMotion());
   const id = useVisualIds('growth');
 
   return (
-    <div className={`relative w-full ${className}`} role="img" aria-label="Growth trend and expanding reach">
+    <div className={`relative w-full ${className}`} role="img" aria-label="Compound growth engine: expanding node network with upward trajectory">
       <svg
-        viewBox="0 0 520 156"
+        viewBox="0 0 540 168"
         className="mx-auto h-auto w-full max-w-2xl"
         fill="none"
         shapeRendering="geometricPrecision"
@@ -34,105 +48,145 @@ export function GrowthGraphVisual({ className = '' }: GrowthGraphVisualProps) {
       >
         <RichSvgDefs id={id} />
         <defs>
-          <linearGradient id={id.chartFill} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="hsl(var(--gnk-accent))" stopOpacity="0.42" />
-            <stop offset="55%" stopColor="hsl(var(--gnk-accent-2))" stopOpacity="0.12" />
-            <stop offset="100%" stopColor="hsl(var(--gnk-accent))" stopOpacity="0" />
+          <linearGradient id={`${id.flow}-fill`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="hsl(var(--gnk-accent))" stopOpacity="0.28" />
+            <stop offset="60%" stopColor="hsl(var(--gnk-accent-2))" stopOpacity="0.06" />
+            <stop offset="100%" stopColor="transparent" stopOpacity="0" />
           </linearGradient>
-          <radialGradient id={`${id.flow}-ring`} cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="hsl(var(--gnk-accent-2))" stopOpacity="0.32" />
-            <stop offset="55%" stopColor="hsl(var(--gnk-accent))" stopOpacity="0.18" />
-            <stop offset="100%" stopColor="transparent" />
-          </radialGradient>
         </defs>
 
         <rect width="100%" height="100%" fill={`url(#${id.flow}-hex)`} opacity="0.35" />
 
-        {/* Left: stable trust ring */}
-        <g transform={`translate(${ring.cx} ${ring.cy})`}>
-          <circle r={ring.r + 20} fill={`url(#${id.flow}-ring)`} opacity="0.9" filter={`url(#${id.bloom})`} />
-          <circle r={ring.r + 10} fill="none" stroke="hsl(var(--gnk-border))" strokeWidth="1" opacity="0.6" />
-          <circle r={ring.r} fill="hsl(var(--gnk-bg-elevated) / 0.35)" stroke="hsl(var(--gnk-accent) / 0.35)" strokeWidth="1.25" />
-          <path d="M -18 2 L -6 14 L 18 -10" stroke="hsl(var(--gnk-accent-2))" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" filter={`url(#${id.filterSoft})`} />
-          {!reduce ? (
-            <motion.circle
-              r={ring.r + 14}
-              fill="none"
+        {/* Baseline grid */}
+        <line x1="40" y1="148" x2="510" y2="148" stroke="hsl(var(--gnk-border))" strokeWidth="0.75" opacity="0.5" />
+        {[40, 80, 110].map((y) => (
+          <line key={y} x1="40" y1={y} x2="510" y2={y} stroke="hsl(var(--gnk-border))" strokeWidth="0.3" strokeOpacity="0.2" />
+        ))}
+
+        {/* Area fill under main sweep */}
+        <path
+          d={`${sweepMain} L 488 148 L 52 148 Z`}
+          fill={`url(#${id.flow}-fill)`}
+          opacity="0.9"
+        />
+
+        {/* Network edges */}
+        {netEdges.map(([a, b], i) => {
+          const na = networkNodes[a];
+          const nb = networkNodes[b];
+          return (
+            <motion.line
+              key={`ne-${i}`}
+              x1={na.x} y1={na.y}
+              x2={nb.x} y2={nb.y}
               stroke="hsl(var(--gnk-accent-2))"
-              strokeWidth="0.8"
-              strokeDasharray="3 10"
-              strokeOpacity="0.35"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 32, repeat: Infinity, ease: 'linear' }}
+              strokeWidth="0.6"
+              strokeOpacity="0.28"
+              initial={reduce ? undefined : { pathLength: 0 }}
+              animate={reduce ? undefined : { pathLength: 1 }}
+              transition={{ duration: 0.9, delay: 0.04 * i, ease }}
             />
-          ) : (
-            <circle r={ring.r + 14} fill="none" stroke="hsl(var(--gnk-accent-2))" strokeWidth="0.8" strokeDasharray="3 10" strokeOpacity="0.22" />
-          )}
-        </g>
+          );
+        })}
 
-        {/* Right: aligned outcome traces */}
-        <g>
-          <path d="M 236 126 H 492" stroke="hsl(var(--gnk-border))" strokeWidth="1" opacity="0.55" />
-          <path d={sweep} stroke={`url(#${id.flow2})`} strokeWidth="6" fill="none" strokeLinecap="round" opacity="0.75" />
+        {/* Secondary traces */}
+        {[sweepB, sweepC].map((d, i) => (
           <motion.path
-            d={sweep}
-            stroke={`url(#${id.flow})`}
-            strokeWidth="2.25"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            vectorEffect="non-scaling-stroke"
-            filter={`url(#${id.filterSoft})`}
-            initial={reduce ? undefined : { pathLength: 0 }}
-            animate={reduce ? undefined : { pathLength: 1 }}
-            transition={{ duration: 1.35, ease: [0.25, 0.4, 0.25, 1] }}
-          />
-          <motion.path
-            d={traceA}
-            stroke="hsl(var(--gnk-accent-2))"
-            strokeWidth="1.3"
-            fill="none"
-            strokeLinecap="round"
-            opacity="0.4"
-            initial={reduce ? undefined : { pathLength: 0 }}
-            animate={reduce ? undefined : { pathLength: 1 }}
-            transition={{ duration: 1.2, delay: 0.06, ease: [0.25, 0.4, 0.25, 1] }}
-          />
-          <motion.path
-            d={traceB}
+            key={`sw-${i}`}
+            d={d}
             stroke="hsl(var(--gnk-muted))"
-            strokeWidth="1.05"
+            strokeWidth={i === 0 ? 1.1 : 0.85}
             fill="none"
             strokeLinecap="round"
-            opacity="0.28"
+            opacity={i === 0 ? 0.32 : 0.18}
             initial={reduce ? undefined : { pathLength: 0 }}
             animate={reduce ? undefined : { pathLength: 1 }}
-            transition={{ duration: 1.05, delay: 0.1, ease: [0.25, 0.4, 0.25, 1] }}
+            transition={{ duration: 1.2 + i * 0.1, delay: 0.06 + i * 0.06, ease }}
           />
+        ))}
 
-          {[
-            [346, 46],
-            [398, 30],
-            [452, 36],
-          ].map(([x, y], i) => (
-            <g key={i}>
-              <circle cx={x} cy={y} r="5.5" fill="hsl(var(--gnk-bg-elevated))" stroke="hsl(var(--gnk-accent-2))" strokeWidth="1.2" opacity="0.95" />
-              {!reduce ? (
-                <motion.circle
-                  cx={x}
-                  cy={y}
-                  r="10.5"
-                  fill="none"
-                  stroke="hsl(var(--gnk-accent))"
-                  strokeWidth="0.75"
-                  strokeOpacity="0.25"
-                  animate={{ opacity: [0.1, 0.35, 0.1] }}
-                  transition={{ duration: 2.8 + i * 0.25, repeat: Infinity, ease: 'easeInOut' }}
-                />
-              ) : null}
-            </g>
-          ))}
-        </g>
+        {/* Glow underglow on main sweep */}
+        <path d={sweepMain} stroke={`url(#${id.flow2})`} strokeWidth="7" fill="none" strokeLinecap="round" opacity="0.65" />
+
+        {/* Main sweep path */}
+        <motion.path
+          d={sweepMain}
+          stroke={`url(#${id.flow})`}
+          strokeWidth="2.25"
+          fill="none"
+          strokeLinecap="round"
+          filter={`url(#${id.filterSoft})`}
+          initial={reduce ? undefined : { pathLength: 0 }}
+          animate={reduce ? undefined : { pathLength: 1 }}
+          transition={{ duration: 1.4, ease }}
+        />
+
+        {/* Network nodes */}
+        {networkNodes.map((n, i) => (
+          <g key={i} transform={`translate(${n.x} ${n.y})`}>
+            {n.hub && (
+              <circle r={n.r + 14} fill={`url(#${id.core})`} opacity="0.3" filter={`url(#${id.bloom})`} />
+            )}
+            <circle
+              r={n.r + 5}
+              fill="hsl(var(--gnk-bg-elevated)/0.6)"
+              stroke="hsl(var(--gnk-border))"
+              strokeWidth="0.5"
+              strokeOpacity="0.4"
+            />
+            <circle
+              r={n.r}
+              fill={n.hub ? 'hsl(var(--gnk-bg-elevated)/0.9)' : 'hsl(var(--gnk-accent)/0.1)'}
+              stroke={n.hub ? 'hsl(var(--gnk-accent-2)/0.55)' : 'hsl(var(--gnk-accent-2)/0.3)'}
+              strokeWidth={n.hub ? 1.2 : 0.7}
+            />
+            <circle r={n.hub ? 3.5 : 2.5} fill="hsl(var(--gnk-accent-2))" opacity={n.hub ? 0.9 : 0.55} />
+            {/* Pulse on hub nodes */}
+            {n.hub && !reduce && (
+              <motion.circle
+                r={n.r + 9}
+                fill="none"
+                stroke="hsl(var(--gnk-accent))"
+                strokeWidth="0.65"
+                strokeOpacity="0.3"
+                animate={{ opacity: [0.1, 0.4, 0.1] }}
+                transition={{ duration: 2.8 + i * 0.2, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            )}
+          </g>
+        ))}
+
+        {/* Particle along main sweep */}
+        {!reduce && (
+          <>
+            <circle r="3.5" fill="hsl(var(--gnk-accent-2))" opacity="0.9" filter={`url(#${id.bloom})`}>
+              <animateMotion dur="7s" repeatCount="indefinite" path={sweepMain} />
+            </circle>
+            <circle r="2.5" fill="hsl(var(--gnk-accent))" opacity="0.72">
+              <animateMotion dur="7s" repeatCount="indefinite" path={sweepMain} begin="2.2s" />
+            </circle>
+          </>
+        )}
+
+        {/* Y-axis tick labels */}
+        {[
+          { y: 148, label: 'BASE' },
+          { y: 80, label: '2×' },
+          { y: 30, label: '5×' },
+        ].map(({ y, label }) => (
+          <text
+            key={label}
+            x="32"
+            y={y + 4}
+            textAnchor="end"
+            fill="hsl(var(--gnk-muted))"
+            style={{ fontSize: 6.5, fontWeight: 600 }}
+            className="font-mono"
+            opacity="0.5"
+          >
+            {label}
+          </text>
+        ))}
       </svg>
     </div>
   );
