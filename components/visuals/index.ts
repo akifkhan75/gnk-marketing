@@ -9,3 +9,4 @@ export { GrowthGraphVisual } from './GrowthGraphVisual';
 export { HeroAnimation } from './HeroAnimation';
 export { LeadFlowVisual } from './LeadFlowVisual';
 export { ProcessFlow } from './ProcessFlow';
+export { RealEstateGrowthSystemVisual } from './RealEstateGrowthSystemVisual';
