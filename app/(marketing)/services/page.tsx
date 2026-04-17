@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { ButtonLink } from '@/components/marketing/Button';
 import { Container } from '@/components/marketing/Container';
 import { SectionHeading } from '@/components/marketing/SectionHeading';
+import { ServicesCatalogIconGrid } from '@/components/marketing/ServicesCatalogIconGrid';
+import { AIFlowVisual } from '@/components/visuals';
 import { buildPageMetadata } from '@/lib/seo';
 import { SERVICES } from '@/lib/services';
 
@@ -33,6 +35,12 @@ export default function ServicesPage() {
             Pick a capability to see how we work, what tools we use, and the outcomes we optimize for. Prefer a human
             walkthrough? Book a strategy call.
           </p>
+          <div className="mt-10 rounded-3xl bg-gnk-card/30 px-4 py-8 dark:bg-gnk-card/15 sm:px-6">
+            <AIFlowVisual compact />
+            <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-gnk-muted">
+              Systems view · how work moves through GNK
+            </p>
+          </div>
           <div className="mt-8 flex flex-wrap gap-3">
             <ButtonLink href="/contact" variant="primary">
               Book a call
@@ -68,17 +76,7 @@ export default function ServicesPage() {
             align="center"
           />
           <div className="mt-12 grid gap-4 sm:grid-cols-2">
-            {SERVICES.map((s) => (
-              <Link
-                key={s.slug}
-                href={`/services/${s.slug}`}
-                className="group rounded-3xl border border-gnk-border bg-gnk-card p-8 shadow-card transition hover:border-gnk-accent/30 hover:shadow-glow"
-              >
-                <h2 className="font-display text-xl font-semibold text-gnk-fg group-hover:text-gnk-accent">{s.title}</h2>
-                <p className="mt-3 text-sm leading-relaxed text-gnk-muted">{s.shortDescription}</p>
-                <span className="mt-4 inline-block text-sm font-semibold text-gnk-accent">View service →</span>
-              </Link>
-            ))}
+            <ServicesCatalogIconGrid services={SERVICES} />
           </div>
         </Container>
       </section>

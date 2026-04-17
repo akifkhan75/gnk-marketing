@@ -13,7 +13,7 @@ type GlowCardProps = {
 export function GlowCard({ children, className = '', href }: GlowCardProps) {
   const reduce = useReducedMotion();
 
-  const shell = `group/card relative overflow-hidden rounded-3xl border border-white/[0.08] bg-gnk-card/35 shadow-card backdrop-blur-md transition-[box-shadow,border-color] duration-300 hover:border-violet-500/30 hover:shadow-glow ${className}`;
+  const shell = `group/card relative overflow-hidden rounded-3xl border border-gnk-border/90 bg-gnk-card/80 shadow-card backdrop-blur-md transition-[box-shadow,border-color,background-color] duration-300 hover:border-gnk-accent/35 hover:shadow-glow dark:border-white/[0.08] dark:bg-gnk-card/35 dark:hover:border-violet-500/35 ${className}`;
 
   const pad = (
     <div className="relative p-6 sm:p-8">

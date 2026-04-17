@@ -17,21 +17,32 @@
     --gnk-accent-fg: 240 14% 4%;
     --gnk-ring: 263 88% 66%;
     --gnk-glow: 263 70% 55%;
+    /* Card / glass elevation (theme-specific shadow) */
+    --gnk-shadow-card: 0 1px 0 hsl(var(--gnk-border) / 0.9), 0 24px 60px -28px rgb(0 0 0 / 0.55);
+    --gnk-shadow-glow: 0 0 0 1px hsl(var(--gnk-border)), 0 0 60px -12px hsl(var(--gnk-glow) / 0.45);
+    --gnk-shadow-glow-lg: 0 0 0 1px hsl(var(--gnk-border)), 0 0 100px -20px hsl(var(--gnk-glow) / 0.5);
+    --gnk-inner-glow: inset 0 1px 0 0 rgb(255 255 255 / 0.06);
   }
 
   .light {
     color-scheme: light;
-    --gnk-bg: 210 20% 98%;
+    --gnk-bg: 220 18% 97%;
     --gnk-bg-elevated: 0 0% 100%;
-    --gnk-fg: 222 47% 8%;
-    --gnk-muted: 215 16% 42%;
-    --gnk-border: 214 20% 88%;
+    --gnk-fg: 222 44% 12%;
+    --gnk-muted: 215 14% 42%;
+    --gnk-border: 220 14% 88%;
     --gnk-card: 0 0% 100%;
-    --gnk-accent: 262 83% 58%;
-    --gnk-accent-2: 199 89% 48%;
+    /* Deeper accents on white for WCAG-friendly hovers & links */
+    --gnk-accent: 262 72% 48%;
+    --gnk-accent-2: 199 72% 42%;
     --gnk-accent-fg: 0 0% 100%;
-    --gnk-ring: 262 83% 58%;
-    --gnk-glow: 262 83% 50%;
+    --gnk-ring: 262 72% 48%;
+    --gnk-glow: 262 65% 52%;
+    --gnk-shadow-card: 0 1px 2px rgb(15 23 42 / 0.05), 0 1px 0 rgb(255 255 255 / 0.9) inset,
+      0 20px 50px -24px rgb(15 23 42 / 0.12);
+    --gnk-shadow-glow: 0 0 0 1px hsl(var(--gnk-border)), 0 0 48px -12px hsl(var(--gnk-glow) / 0.28);
+    --gnk-shadow-glow-lg: 0 0 0 1px hsl(var(--gnk-border)), 0 0 72px -16px hsl(var(--gnk-glow) / 0.32);
+    --gnk-inner-glow: inset 0 1px 0 0 rgb(255 255 255 / 0.65), inset 0 -1px 0 0 rgb(15 23 42 / 0.05);
   }
 }
 
@@ -54,7 +65,7 @@
   }
 
   .border-glass {
-    @apply border border-white/[0.08] dark:border-white/[0.08];
+    @apply border border-gnk-border/80 dark:border-white/[0.08];
   }
 
   .bg-glass {
@@ -110,5 +121,22 @@
   .animate-float-soft,
   .animate-grid-pan {
     animation: none !important;
+  }
+}
+
+/* AI flow diagram connector dash (AIFlowDiagram) */
+@keyframes ai-flow-dash {
+  to {
+    stroke-dashoffset: -120;
+  }
+}
+
+.animate-ai-flow-dash {
+  animation: ai-flow-dash 2.4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ai-flow-dash {
+    animation: none;
   }
 }

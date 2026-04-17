@@ -34,10 +34,10 @@ const config: Config = {
         '4xl': '2rem',
       },
       boxShadow: {
-        glow: '0 0 0 1px hsl(var(--gnk-border)), 0 0 60px -12px hsl(var(--gnk-glow) / 0.45)',
-        'glow-lg': '0 0 0 1px hsl(var(--gnk-border)), 0 0 100px -20px hsl(var(--gnk-glow) / 0.5)',
-        card: '0 1px 0 hsl(var(--gnk-border)), 0 24px 60px -28px rgb(0 0 0 / 0.55)',
-        'inner-glow': 'inset 0 1px 0 0 rgb(255 255 255 / 0.06)',
+        glow: 'var(--gnk-shadow-glow)',
+        'glow-lg': 'var(--gnk-shadow-glow-lg)',
+        card: 'var(--gnk-shadow-card)',
+        'inner-glow': 'var(--gnk-inner-glow)',
       },
       backgroundImage: {
         'hero-mesh':

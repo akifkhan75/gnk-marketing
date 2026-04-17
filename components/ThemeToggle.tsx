@@ -10,7 +10,7 @@ export function ThemeToggle() {
 
   return (
     <button
-      className="relative inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] p-2 transition-colors hover:bg-white/[0.06] focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 focus:ring-offset-gnk-bg"
+      className="relative inline-flex h-10 w-10 items-center justify-center rounded-xl border border-gnk-border bg-gnk-card p-2 text-gnk-fg transition-colors hover:border-gnk-accent/35 hover:bg-gnk-accent/[0.06] focus:outline-none focus:ring-2 focus:ring-gnk-ring focus:ring-offset-2 focus:ring-offset-gnk-bg dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-white/15 dark:hover:bg-white/[0.06]"
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
       aria-label="Toggle theme"
     >

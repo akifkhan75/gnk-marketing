@@ -21,7 +21,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-gnk-bg/70 backdrop-blur-xl backdrop-saturate-150">
+    <header className="sticky top-0 z-50 border-b border-gnk-border/80 bg-gnk-bg/80 backdrop-blur-xl backdrop-saturate-150 dark:border-white/[0.06] dark:bg-gnk-bg/70">
       <Container className="flex h-16 items-center justify-between gap-4">
         <Logo />
         <nav className="hidden items-center gap-8 md:flex" aria-label="Main">
@@ -29,7 +29,7 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm font-medium text-gnk-muted transition hover:text-gnk-fg"
+              className="text-sm font-medium text-gnk-muted transition hover:text-gnk-accent dark:hover:text-gnk-fg"
             >
               {item.label}
             </Link>
@@ -48,7 +48,7 @@ export function Header() {
           <ThemeToggle />
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 text-gnk-fg backdrop-blur-sm"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-gnk-border bg-gnk-card/50 text-gnk-fg backdrop-blur-sm transition hover:border-gnk-accent/30 dark:border-white/10 dark:bg-transparent dark:hover:border-white/20"
             aria-expanded={open}
             aria-label={open ? 'Close menu' : 'Open menu'}
             onClick={() => setOpen((v) => !v)}
@@ -58,19 +58,19 @@ export function Header() {
         </div>
       </Container>
       {open ? (
-        <div className="border-t border-white/[0.06] bg-gnk-bg/95 backdrop-blur-xl md:hidden">
+        <div className="border-t border-gnk-border/80 bg-gnk-bg/95 backdrop-blur-xl dark:border-white/[0.06] md:hidden">
           <Container className="flex flex-col gap-1 py-4">
             {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="rounded-lg px-3 py-3 text-base font-medium text-gnk-fg hover:bg-white/[0.04]"
+                className="rounded-lg px-3 py-3 text-base font-medium text-gnk-fg transition hover:bg-gnk-accent/[0.06] dark:hover:bg-white/[0.04]"
                 onClick={() => setOpen(false)}
               >
                 {item.label}
               </Link>
             ))}
-            <div className="mt-2 flex flex-col gap-2 border-t border-white/[0.06] pt-4">
+            <div className="mt-2 flex flex-col gap-2 border-t border-gnk-border/80 pt-4 dark:border-white/[0.06]">
               <ButtonLink href="/free-ai-audit" variant="secondary" className="w-full">
                 Free AI audit
               </ButtonLink>

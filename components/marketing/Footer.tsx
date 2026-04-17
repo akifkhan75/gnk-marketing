@@ -10,8 +10,8 @@ const footerAI = AI_SERVICES.slice(0, 6);
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-white/[0.06] bg-gnk-bg/80 backdrop-blur-xl">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-500/40 to-transparent" />
+    <footer className="relative border-t border-gnk-border/80 bg-gnk-bg/90 backdrop-blur-xl dark:border-white/[0.06] dark:bg-gnk-bg/80">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gnk-accent/35 to-transparent dark:via-violet-500/40" />
       <Container className="py-16">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-1">
@@ -25,14 +25,14 @@ export function Footer() {
                 <li key={s.slug}>
                   <Link
                     href={`/services/${s.slug}`}
-                    className="text-sm text-gnk-muted transition hover:text-violet-300"
+                    className="text-sm text-gnk-muted transition hover:text-gnk-accent dark:hover:text-violet-300"
                   >
                     {s.title}
                   </Link>
                 </li>
               ))}
               <li>
-                <Link href="/services" className="text-sm font-medium text-cyan-400/90 hover:text-cyan-300">
+                <Link href="/services" className="text-sm font-medium text-gnk-accent-2 transition hover:opacity-90 dark:text-cyan-400/90 dark:hover:text-cyan-300">
                   View all services →
                 </Link>
               </li>
@@ -45,14 +45,14 @@ export function Footer() {
                 <li key={s.slug}>
                   <Link
                     href={`/services/ai/${s.slug}`}
-                    className="text-sm text-gnk-muted transition hover:text-violet-300"
+                    className="text-sm text-gnk-muted transition hover:text-gnk-accent dark:hover:text-violet-300"
                   >
                     {s.title}
                   </Link>
                 </li>
               ))}
               <li>
-                <Link href="/services/ai" className="text-sm font-medium text-cyan-400/90 hover:text-cyan-300">
+                <Link href="/services/ai" className="text-sm font-medium text-gnk-accent-2 transition hover:opacity-90 dark:text-cyan-400/90 dark:hover:text-cyan-300">
                   All AI systems →
                 </Link>
               </li>
@@ -82,7 +82,7 @@ export function Footer() {
             <p className="font-display text-sm font-semibold text-gnk-fg">Contact</p>
             <ul className="mt-4 space-y-2 text-sm text-gnk-muted">
               <li>
-                <a href={`mailto:${COMPANY.email}`} className="transition hover:text-violet-300">
+                <a href={`mailto:${COMPANY.email}`} className="transition hover:text-gnk-accent dark:hover:text-violet-300">
                   {COMPANY.email}
                 </a>
               </li>

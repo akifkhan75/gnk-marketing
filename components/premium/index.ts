@@ -1,8 +1,10 @@
+export { IconCard } from './IconCard';
 export { AIFlowDiagram } from './AIFlowDiagram';
 export { AnimatedButtonLink } from './AnimatedButton';
 export { AnimatedGrid } from './AnimatedGrid';
 export { GlowCard } from './GlowCard';
 export { GradientBackground } from './GradientBackground';
+export { HeroCommandModule } from './HeroCommandModule';
 export { HeroVisual } from './HeroVisual';
 export { HomeHero } from './HomeHero';
 export { MotionSection } from './MotionSection';

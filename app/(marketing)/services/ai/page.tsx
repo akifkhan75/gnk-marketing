@@ -1,7 +1,8 @@
-import Link from 'next/link';
+import { AIServicesCatalogIconGrid } from '@/components/marketing/AIServicesCatalogIconGrid';
 import { ButtonLink } from '@/components/marketing/Button';
 import { Container } from '@/components/marketing/Container';
 import { SectionHeading } from '@/components/marketing/SectionHeading';
+import { AutomationPipeline } from '@/components/visuals';
 import { AI_SERVICES } from '@/lib/ai-services';
 import { buildPageMetadata } from '@/lib/seo';
 
@@ -47,6 +48,12 @@ export default function AIServicesHubPage() {
               Classic marketing services
             </ButtonLink>
           </div>
+          <div className="mt-10 rounded-3xl bg-gnk-card/25 px-4 py-8 dark:bg-gnk-card/15">
+            <AutomationPipeline labels={['Ingest', 'Reason', 'Act', 'Learn']} />
+            <p className="mt-4 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-gnk-muted">
+              Closed-loop automation · human QA at the edges
+            </p>
+          </div>
         </Container>
       </section>
 
@@ -86,17 +93,7 @@ export default function AIServicesHubPage() {
             align="center"
           />
           <div className="mt-12 grid gap-4 md:grid-cols-2">
-            {AI_SERVICES.map((s) => (
-              <Link
-                key={s.slug}
-                href={`/services/ai/${s.slug}`}
-                className="group rounded-3xl border border-gnk-border bg-gnk-bg p-8 transition hover:border-gnk-accent/35 hover:shadow-glow"
-              >
-                <h2 className="font-display text-xl font-semibold text-gnk-fg group-hover:text-gnk-accent">{s.title}</h2>
-                <p className="mt-3 text-sm leading-relaxed text-gnk-muted">{s.shortDescription}</p>
-                <span className="mt-4 inline-block text-sm font-semibold text-gnk-accent">View system →</span>
-              </Link>
-            ))}
+            <AIServicesCatalogIconGrid services={AI_SERVICES} />
           </div>
         </Container>
       </section>

@@ -2,43 +2,28 @@ import Link from 'next/link';
 import { CheckIcon } from '@/components/icons';
 import { ButtonLink } from '@/components/marketing/Button';
 import { Container } from '@/components/marketing/Container';
+import {
+  HomeAIShowcaseIconCards,
+  HomeProblemIconCards,
+  HomeProcessIconCards,
+  HomeServicesIconCards,
+  HomeTrustMetricCards,
+} from '@/components/marketing/HomePremiumIconSections';
 import { SectionHeading } from '@/components/marketing/SectionHeading';
-import { AI_SERVICES } from '@/lib/ai-services';
 import { SERVICES } from '@/lib/services';
-import { AIFlowDiagram } from '@/components/premium/AIFlowDiagram';
+import {
+  AIFlowVisual,
+  AnalyticsStreamVisual,
+  AutomationPipeline,
+  ConversationGraphVisual,
+  FunnelDiagram,
+  GrowthGraphVisual,
+  LeadFlowVisual,
+} from '@/components/visuals';
 import { AnimatedButtonLink } from '@/components/premium/AnimatedButton';
 import { GlowCard } from '@/components/premium/GlowCard';
 import { HomeHero } from '@/components/premium/HomeHero';
 import { MotionSection } from '@/components/premium/MotionSection';
-
-const aiShowcase = [
-  'ai-chatbots-conversational-ai',
-  'ai-sales-funnels',
-  'ai-ads-optimization',
-  'ai-marketing-automation',
-] as const;
-
-const problems = [
-  {
-    title: 'Traffic without pipeline',
-    body: 'Rankings and clicks look fine—but SQLs do not move. We connect acquisition to conversion and revenue proof.',
-  },
-  {
-    title: 'Fragmented channels',
-    body: 'Paid, organic, email, and sales tell different stories. We align messaging, measurement, and handoffs.',
-  },
-  {
-    title: 'Brittle tracking',
-    body: 'If leadership cannot trust the numbers, teams optimize opinions. We build GA4/GTM foundations you can defend.',
-  },
-];
-
-const process = [
-  { step: '01', title: 'Diagnose', desc: 'Economics, funnel leaks, and technical constraints—before we spend a dollar on tactics.' },
-  { step: '02', title: 'Design', desc: 'A prioritized roadmap: quick wins, structural bets, and clear success metrics.' },
-  { step: '03', title: 'Ship', desc: 'Execution with QA discipline: launches, tests, and documentation your team can run.' },
-  { step: '04', title: 'Compound', desc: 'Weekly learning loops. Scale what wins; cut what fails—without ego.' },
-];
 
 const cases = [
   {
@@ -80,40 +65,32 @@ const testimonials = [
 
 const logos = ['Northline', 'Atlas CRM', 'Brightform', 'Kite Health', 'Silverline Legal', 'Craft & Co.'];
 
-const trustMetrics = [
-  { label: '24/7 AI systems', sub: 'Capture & qualify while you sleep' },
-  { label: 'Human QA gates', sub: 'Brand-safe automation' },
-  { label: 'Revenue reporting', sub: 'Pipeline-grade measurement' },
-];
-
 export function HomePage() {
   return (
     <>
       <HomeHero />
 
       <MotionSection>
-        <section className="border-b border-white/[0.06] py-16 sm:py-20">
+        <section className="border-b border-gnk-border/80 py-16 dark:border-white/[0.06] sm:py-20">
           <Container>
-            <p className="text-center text-xs font-semibold uppercase tracking-[0.2em] text-violet-400/80">
+            <p className="text-center text-xs font-semibold uppercase tracking-[0.2em] text-gnk-accent dark:text-violet-400/80">
               Trusted by teams who outgrow activity metrics
             </p>
+            <div className="mt-8 flex justify-center">
+              <GrowthGraphVisual className="opacity-90" />
+            </div>
             <div className="mt-10 flex flex-wrap items-center justify-center gap-x-12 gap-y-6 opacity-90">
               {logos.map((name) => (
-                <span key={name} className="font-display text-sm font-semibold text-gnk-muted transition hover:text-gnk-fg">
+                <span
+                  key={name}
+                  className="font-display text-sm font-semibold text-gnk-muted transition hover:text-gnk-accent dark:hover:text-gnk-fg"
+                >
                   {name}
                 </span>
               ))}
             </div>
             <div className="mx-auto mt-14 grid max-w-4xl gap-4 sm:grid-cols-3">
-              {trustMetrics.map((m) => (
-                <div
-                  key={m.label}
-                  className="rounded-2xl border border-white/[0.06] bg-gnk-card/30 px-5 py-4 text-center backdrop-blur-sm"
-                >
-                  <p className="font-display text-sm font-bold text-gnk-fg">{m.label}</p>
-                  <p className="mt-1 text-xs text-gnk-muted">{m.sub}</p>
-                </div>
-              ))}
+              <HomeTrustMetricCards />
             </div>
           </Container>
         </section>
@@ -127,19 +104,21 @@ export function HomePage() {
             description="We work with leaders who want proof: what to do, why it matters, and how we will show impact on pipeline and margin."
             align="center"
           />
+          <div className="mt-10 flex justify-center px-2">
+            <AutomationPipeline className="max-w-2xl opacity-95" />
+          </div>
           <div className="mt-16 grid gap-5 md:grid-cols-3">
-            {problems.map((p) => (
-              <GlowCard key={p.title}>
-                <h3 className="font-display text-lg font-semibold text-gnk-fg">{p.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-gnk-muted">{p.body}</p>
-              </GlowCard>
-            ))}
+            <HomeProblemIconCards />
           </div>
         </Container>
       </MotionSection>
 
-      <MotionSection className="border-y border-white/[0.06] bg-gnk-card/20 py-20 sm:py-28">
-        <Container>
+      <MotionSection className="relative border-y border-gnk-border/70 bg-gnk-card/40 py-20 dark:border-white/[0.06] dark:bg-gnk-card/20 sm:py-28">
+        <div
+          className="pointer-events-none absolute left-1/2 top-[42%] h-[min(90vw,520px)] w-[min(90vw,520px)] -translate-x-1/2 rounded-full bg-gradient-to-tr from-gnk-accent/12 via-transparent to-gnk-accent-2/10 blur-3xl dark:from-violet-600/20 dark:to-cyan-500/15"
+          aria-hidden
+        />
+        <Container className="relative">
           <SectionHeading
             eyebrow="AI-powered growth systems"
             gradientTitle
@@ -147,22 +126,17 @@ export function HomePage() {
             description="Replace manual follow-up, triage, and reporting with measured AI layers—then scale what already wins. This is the architecture prospects feel in the first three seconds: advanced, intentional, expensive."
             align="center"
           />
-          <div className="mt-16">
-            <AIFlowDiagram />
+          <div className="mt-16 rounded-3xl bg-gnk-card/25 px-4 py-10 dark:bg-gnk-card/15 sm:px-8 sm:py-12">
+            <AIFlowVisual />
+            <p className="mt-6 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-gnk-muted">
+              Automation fabric · policy gates · live routing
+            </p>
+          </div>
+          <div className="mt-10 flex justify-center px-2">
+            <ConversationGraphVisual />
           </div>
           <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {aiShowcase.map((slug) => {
-              const item = AI_SERVICES.find((s) => s.slug === slug)!;
-              return (
-                <GlowCard key={slug} href={`/services/ai/${slug}`}>
-                  <h3 className="font-display font-semibold text-gnk-fg transition group-hover/card:text-violet-300">
-                    {item.title}
-                  </h3>
-                  <p className="mt-2 text-xs leading-relaxed text-gnk-muted">{item.shortDescription}</p>
-                  <span className="mt-4 inline-block text-xs font-semibold text-cyan-400/90">Explore →</span>
-                </GlowCard>
-              );
-            })}
+            <HomeAIShowcaseIconCards />
           </div>
           <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <AnimatedButtonLink href="/services/ai" variant="primary">
@@ -183,14 +157,11 @@ export function HomePage() {
             description="Every capability is executed with documentation, QA, and reporting your CFO will not roll their eyes at."
             align="center"
           />
+          <div className="mt-10 flex justify-center">
+            <LeadFlowVisual />
+          </div>
           <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {SERVICES.map((s) => (
-              <GlowCard key={s.slug} href={`/services/${s.slug}`}>
-                <h3 className="font-display font-semibold text-gnk-fg group-hover/card:text-violet-300">{s.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-gnk-muted">{s.shortDescription}</p>
-                <span className="mt-4 inline-flex text-sm font-medium text-cyan-400/90">Explore →</span>
-              </GlowCard>
-            ))}
+            <HomeServicesIconCards services={SERVICES} />
           </div>
           <div className="mt-12 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <ButtonLink href="/services" variant="outline">
@@ -203,27 +174,24 @@ export function HomePage() {
         </Container>
       </MotionSection>
 
-      <MotionSection className="border-y border-white/[0.06] bg-gnk-card/15 py-20 sm:py-28">
+      <MotionSection className="border-y border-gnk-border/70 bg-gnk-card/30 py-20 dark:border-white/[0.06] dark:bg-gnk-card/15 sm:py-28">
         <Container>
           <div className="grid gap-16 lg:grid-cols-2 lg:items-start">
-            <SectionHeading
-              eyebrow="Operating system"
-              title="Diagnose → design → ship → compound."
-              description="We are not a ticket factory. We partner with your team, protect brand quality, and tie every decision to business outcomes."
-            />
-            <div className="relative space-y-4 pl-2">
-              <div className="absolute left-[15px] top-3 bottom-3 w-px bg-gradient-to-b from-violet-500/50 via-cyan-500/40 to-transparent" />
-              {process.map((p) => (
-                <div key={p.step} className="relative flex gap-5 pl-10">
-                  <span className="absolute left-0 top-1 flex h-8 w-8 items-center justify-center rounded-full border border-violet-500/40 bg-gnk-bg/80 font-display text-xs font-bold text-violet-300">
-                    {p.step}
-                  </span>
-                  <div className="rounded-2xl border border-white/[0.06] bg-gnk-card/25 px-5 py-4 backdrop-blur-sm">
-                    <h3 className="font-display font-semibold text-gnk-fg">{p.title}</h3>
-                    <p className="mt-1 text-sm text-gnk-muted">{p.desc}</p>
-                  </div>
-                </div>
-              ))}
+            <div>
+              <SectionHeading
+                eyebrow="Operating system"
+                title="Diagnose → design → ship → compound."
+                description="We are not a ticket factory. We partner with your team, protect brand quality, and tie every decision to business outcomes."
+              />
+              <div className="mt-10 hidden justify-center lg:flex">
+                <FunnelDiagram />
+              </div>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <HomeProcessIconCards />
+            </div>
+            <div className="mt-10 flex justify-center lg:hidden">
+              <FunnelDiagram />
             </div>
           </div>
         </Container>
@@ -237,13 +205,19 @@ export function HomePage() {
             description="Representative patterns. In proposals we benchmark against your market and your data maturity."
             align="center"
           />
+          <div className="mt-10 flex justify-center">
+            <AnalyticsStreamVisual />
+          </div>
           <div className="mt-16 grid gap-5 lg:grid-cols-2">
             {cases.map((c) => (
               <GlowCard key={c.name}>
                 <p className="font-display text-xl font-bold text-gnk-fg">{c.result}</p>
-                <p className="mt-2 text-sm font-medium text-violet-400/90">{c.name}</p>
+                <p className="mt-2 text-sm font-medium text-gnk-accent dark:text-violet-400/90">{c.name}</p>
                 <p className="mt-4 text-sm leading-relaxed text-gnk-muted">{c.detail}</p>
-                <Link href="/case-studies" className="mt-6 inline-block text-sm font-semibold text-cyan-400/90 hover:text-cyan-300">
+                <Link
+                  href="/case-studies"
+                  className="mt-6 inline-block text-sm font-semibold text-gnk-accent-2 transition hover:opacity-90 dark:text-cyan-400/90 dark:hover:text-cyan-300"
+                >
                   Case studies →
                 </Link>
               </GlowCard>
@@ -252,7 +226,7 @@ export function HomePage() {
         </Container>
       </MotionSection>
 
-      <MotionSection className="border-t border-white/[0.06] bg-gnk-card/10 py-20 sm:py-28">
+      <MotionSection className="border-t border-gnk-border/70 bg-gnk-card/25 py-20 dark:border-white/[0.06] dark:bg-gnk-card/10 sm:py-28">
         <Container>
           <SectionHeading eyebrow="Clients" title="What marketing leaders say" align="center" />
           <div className="mt-16 grid gap-5 md:grid-cols-2">
@@ -270,9 +244,9 @@ export function HomePage() {
 
       <MotionSection className="pb-24 pt-12 sm:pb-32">
         <Container>
-          <div className="relative overflow-hidden rounded-4xl border border-white/[0.1] bg-gradient-to-br from-violet-950/40 via-gnk-card/50 to-cyan-950/20 p-10 shadow-glow-lg sm:p-14">
-            <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-violet-500/20 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-24 -left-16 h-56 w-56 rounded-full bg-cyan-500/15 blur-3xl" />
+          <div className="relative overflow-hidden rounded-4xl border border-gnk-border/90 bg-gradient-to-br from-gnk-accent/[0.08] via-gnk-card to-gnk-accent-2/[0.06] p-10 shadow-glow-lg dark:border-white/[0.1] dark:from-violet-950/40 dark:via-gnk-card/50 dark:to-cyan-950/20 sm:p-14">
+            <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-gnk-accent/20 blur-3xl dark:bg-violet-500/20" />
+            <div className="pointer-events-none absolute -bottom-24 -left-16 h-56 w-56 rounded-full bg-gnk-accent-2/15 blur-3xl dark:bg-cyan-500/15" />
             <div className="relative max-w-2xl">
               <h2 className="font-display text-3xl font-bold tracking-tight text-gnk-fg sm:text-4xl">
                 Ready for infrastructure-grade growth?
@@ -287,7 +261,7 @@ export function HomePage() {
                   'A plan aligned to your team’s capacity',
                 ].map((item) => (
                   <li key={item} className="flex gap-2">
-                    <CheckIcon className="h-5 w-5 shrink-0 text-violet-400" />
+                    <CheckIcon className="h-5 w-5 shrink-0 text-gnk-accent dark:text-violet-400" />
                     <span>{item}</span>
                   </li>
                 ))}
