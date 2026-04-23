@@ -15,7 +15,7 @@ const servicesOverviewNav = [
 ] as const;
 
 const primaryNav = [
-  { href: '/real-estate-growth-system', label: 'Real estate system' },
+  { href: '/real-estate-growth-system', label: 'Real Estate AI' },
   { href: '/case-studies', label: 'Case studies' },
   { href: '/blog', label: 'Blog' },
   { href: '/about', label: 'About' },
@@ -50,6 +50,7 @@ export function Header() {
           <div
             ref={servicesMenuRef}
             className="relative"
+            onMouseLeave={() => setServicesOpen(false)}
           >
             <button
               type="button"
@@ -67,45 +68,48 @@ export function Header() {
 
             {servicesOpen ? (
               <div
-                className="absolute left-0 top-full mt-3 w-[420px] overflow-hidden rounded-2xl border border-gnk-border/80 bg-gnk-bg/95 p-2 shadow-glow-lg backdrop-blur-xl dark:border-white/[0.08] dark:bg-gnk-bg/80"
+                className="absolute left-1/2 top-full z-[60] mt-3 w-[min(960px,calc(100vw-2rem))] -translate-x-1/2 overflow-hidden rounded-2xl border border-gnk-border bg-gnk-bg p-3 shadow-glow-lg dark:border-white/[0.14] dark:bg-gnk-bg"
                 role="menu"
                 aria-label="Services"
-                onMouseLeave={() => setServicesOpen(false)}
               >
-                {servicesOverviewNav.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    role="menuitem"
-                    className="group block rounded-xl px-3 py-3 transition hover:bg-gnk-accent/[0.06] dark:hover:bg-white/[0.04]"
-                    onClick={() => setServicesOpen(false)}
-                  >
-                    <div className="flex items-center justify-between gap-3">
-                      <span className="text-sm font-semibold text-gnk-fg">{item.label}</span>
-                      <span className="text-xs font-semibold text-gnk-accent-2 opacity-0 transition group-hover:opacity-100 dark:text-cyan-400/90">
-                        Open →
-                      </span>
-                    </div>
-                    <p className="mt-1 text-xs leading-relaxed text-gnk-muted">{item.description}</p>
-                  </Link>
-                ))}
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {servicesOverviewNav.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      role="menuitem"
+                      className="group block rounded-xl border border-gnk-border/60 bg-gnk-card px-4 py-4 transition hover:border-gnk-accent/30 hover:bg-gnk-accent/[0.08] dark:border-white/[0.12] dark:bg-white/[0.04] dark:hover:bg-white/[0.06]"
+                      onClick={() => setServicesOpen(false)}
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <span className="text-sm font-semibold text-gnk-fg">{item.label}</span>
+                        <span className="text-xs font-semibold text-gnk-accent-2 opacity-0 transition group-hover:opacity-100 dark:text-cyan-400/90">
+                          Open →
+                        </span>
+                      </div>
+                      <p className="mt-1 text-[13px] leading-snug text-gnk-fg/75 dark:text-gnk-fg/80">
+                        {item.description}
+                      </p>
+                    </Link>
+                  ))}
+                </div>
 
-                <div className="my-2 h-px bg-gnk-border/80 dark:bg-white/[0.08]" />
+                <div className="my-3 h-px bg-gnk-border/90 dark:bg-white/[0.10]" />
 
-                <div className="px-3 pb-1 pt-2">
+                <div className="px-2 pb-1 pt-1">
                   <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-gnk-muted">
                     Top-level services
                   </p>
                 </div>
 
                 <div className="max-h-[60vh] overflow-auto px-1 pb-1">
-                  <div className="grid gap-1 sm:grid-cols-2">
+                  <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                     {SERVICES.map((service) => (
                       <Link
                         key={service.slug}
                         href={`/services/${service.slug}`}
                         role="menuitem"
-                        className="group rounded-xl px-3 py-3 transition hover:bg-gnk-accent/[0.06] dark:hover:bg-white/[0.04]"
+                        className="group rounded-xl border border-gnk-border/60 bg-gnk-card/80 px-4 py-4 transition hover:border-gnk-accent/30 hover:bg-gnk-accent/[0.08] dark:border-white/[0.12] dark:bg-white/[0.03] dark:hover:bg-white/[0.06]"
                         onClick={() => setServicesOpen(false)}
                       >
                         <div className="flex items-start justify-between gap-3">
@@ -114,7 +118,9 @@ export function Header() {
                             Open →
                           </span>
                         </div>
-                        <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-gnk-muted">{service.shortDescription}</p>
+                        <p className="mt-1 line-clamp-2 text-[13px] leading-snug text-gnk-fg/75 dark:text-gnk-fg/80">
+                          {service.shortDescription}
+                        </p>
                       </Link>
                     ))}
                   </div>
