@@ -12,6 +12,143 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: 'how-to-generate-leads-with-ai',
+    title: 'How to Generate Leads With AI (Without Killing Trust)',
+    description:
+      'A practical playbook for AI lead generation: qualification, routing, automation workflows, and conversion fixes that increase pipeline—not spam.',
+    datePublished: '2026-04-23',
+    keywords: [
+      'how to generate leads with ai',
+      'ai lead generation',
+      'ai marketing strategies',
+      'lead generation agency',
+      'ai chatbot marketing',
+      'marketing automation services',
+    ],
+    readTimeMinutes: 9,
+    sections: [
+      {
+        heading: 'Start with the funnel, not the tool',
+        paragraphs: [
+          'Most “AI lead gen” projects fail because they start with a chatbot and end with more noise. Start with your funnel: where demand enters, how intent is qualified, how fast sales responds, and where leads die.',
+          'If you cannot define what a qualified lead is in one sentence, automation will scale confusion.',
+        ],
+      },
+      {
+        heading: 'Build AI qualification that sales will trust',
+        paragraphs: [
+          'Qualification works when it mirrors how your best rep qualifies: the questions that disqualify, the signals that indicate urgency, and the proof required before booking.',
+          'Good systems route high-intent leads instantly and nurture low-intent leads automatically—without polluting calendars.',
+        ],
+      },
+      {
+        heading: 'Automate follow-up with guardrails',
+        paragraphs: [
+          'Automation should improve speed-to-lead and consistency. It should not spam. Use clear caps (frequency), escalation rules (when a human intervenes), and brand-safe tone constraints.',
+          'The most profitable automation is usually the boring stuff: reminders, rescheduling, enrichment, and handoff notes in the CRM.',
+        ],
+      },
+      {
+        heading: 'Conversion is the multiplier',
+        paragraphs: [
+          'Even perfect qualification fails if landing pages are vague and mobile UX is slow. Fix offer clarity, proof, and response-time friction before you scale spend.',
+          'Treat every stage like a decision engine: what must a buyer believe to move forward?',
+        ],
+      },
+      {
+        heading: 'A simple system map to implement',
+        paragraphs: [
+          'Traffic → AI Qualification → Automation → Conversion. If a component does not reduce manual work or increase intent, it is not part of the system.',
+          'Start with one high-volume entry point (website or WhatsApp), one routing destination (calendar/CRM), and one follow-up sequence. Expand only after you can measure quality.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'ai-marketing-strategies-that-convert',
+    title: 'AI Marketing Strategies That Convert (Not Just Automate)',
+    description:
+      'Practical AI marketing strategies for pipeline: qualification, speed-to-lead, personalization guardrails, and conversion experiments tied to revenue.',
+    datePublished: '2026-04-23',
+    keywords: [
+      'ai marketing strategies',
+      'ai marketing agency',
+      'marketing automation services',
+      'ai lead generation',
+      'ai chatbot marketing',
+    ],
+    readTimeMinutes: 8,
+    sections: [
+      {
+        heading: 'Strategy first: what must be true for conversion?',
+        paragraphs: [
+          'The fastest way to waste money with AI is to automate a broken funnel. Start with the beliefs and proof a buyer needs before they book, buy, or request pricing.',
+          'AI should reduce friction and increase relevance. If it increases complexity or uncertainty, it is not helping conversion.',
+        ],
+      },
+      {
+        heading: 'Speed-to-lead is still the simplest advantage',
+        paragraphs: [
+          'For lead generation, response time often beats ad targeting. AI assistants and routing workflows can turn “tomorrow follow-up” into “now,” especially after hours.',
+          'Measure speed-to-lead by channel and by intent tier. Optimize the slowest handoff first.',
+        ],
+      },
+      {
+        heading: 'Personalization with guardrails',
+        paragraphs: [
+          'Personalization works when it is constrained: which segments exist, what claims are allowed, and how you fall back when data is missing.',
+          'Avoid creepy tracking. Use first-party signals (source, page, form answers) and keep the experience simple.',
+        ],
+      },
+      {
+        heading: 'Conversion experiments: prove lift, then scale',
+        paragraphs: [
+          'Use AI to increase test velocity (more variants), but keep governance: a hypothesis, an acceptance threshold, and a rollback plan.',
+          'The best AI marketing strategy is the one you can measure and repeat.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'ai-chatbot-marketing-playbook',
+    title: 'AI Chatbot Marketing Playbook: Qualify, Route, and Convert',
+    description:
+      'How to use AI chatbot marketing without annoying visitors: qualification flows, human handoff, automation, and measurement that ties to pipeline.',
+    datePublished: '2026-04-23',
+    keywords: ['ai chatbot marketing', 'ai lead generation', 'ai marketing agency', 'marketing automation services'],
+    readTimeMinutes: 7,
+    sections: [
+      {
+        heading: 'A chatbot is an interface, not a strategy',
+        paragraphs: [
+          'Chat works when it solves a real user job: answer a question, help choose, book a next step, or route to the right human.',
+          'If chat exists only because “AI is trendy,” it will create noise and reduce trust.',
+        ],
+      },
+      {
+        heading: 'Qualification: ask fewer, better questions',
+        paragraphs: [
+          'Use progressive questions: start broad, then narrow only if the visitor opts in. Add clear exits (email us, call us, browse pricing).',
+          'Record answers into the CRM so sales has context. Without this, the system does not compound.',
+        ],
+      },
+      {
+        heading: 'Handoff: route intent, not just a transcript',
+        paragraphs: [
+          'A good handoff includes: intent tier, key answers, urgency, and recommended next action (book / nurture / human).',
+          'Always allow human takeover. Trust is built by options.',
+        ],
+      },
+      {
+        heading: 'Measurement: what to track',
+        paragraphs: [
+          'Track: containment rate (when appropriate), qualified lead rate, booking rate, speed-to-lead, and assisted conversions.',
+          'If you cannot tie chat to outcomes, it becomes a cosmetic widget.',
+        ],
+      },
+    ],
+  },
+  {
     slug: 'seo-roadmap-revenue-not-traffic',
     title: 'Build an SEO Roadmap That Optimizes for Revenue, Not Traffic',
     description:

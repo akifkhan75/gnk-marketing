@@ -1,8 +1,9 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { useRef } from 'react';
 import { RichSvgDefs } from './rich-svg-defs';
-import { reduced, useVisualIds } from './visual-utils';
+import { reduced, useIsSmallScreen, useVisualIds } from './visual-utils';
 
 type AnalyticsStreamVisualProps = { className?: string };
 
@@ -34,11 +35,16 @@ const sparkLines: Record<string, string> = {
 /** Analytics dashboard: trend series, KPI column bars, and live metric sparklines */
 export function AnalyticsStreamVisual({ className = '' }: AnalyticsStreamVisualProps) {
   const reduce = reduced(useReducedMotion());
+  const isSmall = useIsSmallScreen();
+  const containerRef = useRef<SVGSVGElement | null>(null);
+  const inView = useInView(containerRef, { amount: 0.25, margin: '-80px', once: true });
+  const active = !reduce && !isSmall && inView;
   const id = useVisualIds('analytics');
 
   return (
     <div className={`relative w-full ${className}`} role="img" aria-label="Analytics dashboard: pipeline metrics and growth trends">
       <svg
+        ref={containerRef}
         viewBox="0 0 480 124"
         className="mx-auto h-auto w-full max-w-2xl"
         fill="none"
@@ -72,7 +78,7 @@ export function AnalyticsStreamVisual({ className = '' }: AnalyticsStreamVisualP
           PERFORMANCE METRICS · LIVE
         </text>
         {/* Status dot */}
-        {!reduce ? (
+        {active ? (
           <motion.circle
             cx="386" cy="12" r="3"
             fill="hsl(var(--gnk-accent-2))"
@@ -102,9 +108,9 @@ export function AnalyticsStreamVisual({ className = '' }: AnalyticsStreamVisualP
             strokeLinecap="round"
             opacity={i === 0 ? 0.95 : 0.28}
             filter={i === 0 ? `url(#${id.filterSoft})` : undefined}
-            initial={reduce ? undefined : { pathLength: 0 }}
-            animate={reduce ? undefined : { pathLength: 1 }}
-            transition={{ duration: 1.2 + i * 0.1, delay: i * 0.06, ease }}
+            initial={active ? { pathLength: 0 } : undefined}
+            animate={active ? { pathLength: 1 } : undefined}
+            transition={active ? { duration: 1.05 + i * 0.1, delay: i * 0.06, ease } : undefined}
           />
         ))}
 
@@ -117,7 +123,7 @@ export function AnalyticsStreamVisual({ className = '' }: AnalyticsStreamVisualP
         ].map(([x, y], i) => (
           <g key={i}>
             <circle cx={x} cy={y} r="5" fill="hsl(var(--gnk-bg-elevated))" stroke="hsl(var(--gnk-accent-2))" strokeWidth="1.1" />
-            {!reduce && (
+            {active && (
               <motion.circle
                 cx={x} cy={y} r="9"
                 fill="none"
@@ -150,9 +156,9 @@ export function AnalyticsStreamVisual({ className = '' }: AnalyticsStreamVisualP
                 width="20"
                 rx="3"
                 fill={fill}
-                initial={reduce ? undefined : { height: 0, y: 90 }}
-                animate={reduce ? undefined : { height: bh, y: by }}
-                transition={{ duration: 0.9, delay: 0.1 * i, ease }}
+                initial={active ? { height: 0, y: 90 } : undefined}
+                animate={active ? { height: bh, y: by } : undefined}
+                transition={active ? { duration: 0.8, delay: 0.08 * i, ease } : undefined}
               />
               {/* Bar border (static — positioned at full height) */}
               <rect x={bx - 10} y={by} width="20" height={bh} rx="3"
@@ -167,9 +173,9 @@ export function AnalyticsStreamVisual({ className = '' }: AnalyticsStreamVisualP
                   fill="none"
                   strokeLinecap="round"
                   transform="translate(0 2)"
-                  initial={reduce ? undefined : { pathLength: 0 }}
-                  animate={reduce ? undefined : { pathLength: 1 }}
-                  transition={{ duration: 0.9, delay: 0.2 + i * 0.1, ease }}
+                  initial={active ? { pathLength: 0 } : undefined}
+                  animate={active ? { pathLength: 1 } : undefined}
+                  transition={active ? { duration: 0.8, delay: 0.16 + i * 0.08, ease } : undefined}
                 />
               </g>
               {/* KPI label */}

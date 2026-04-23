@@ -1,8 +1,9 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { useRef } from 'react';
 import { RichSvgDefs } from './rich-svg-defs';
-import { reduced, useVisualIds } from './visual-utils';
+import { reduced, useIsSmallScreen, useVisualIds } from './visual-utils';
 
 type LeadFlowVisualProps = { className?: string };
 
@@ -35,10 +36,15 @@ const pathQ2 = 'M 236 248 C 260 260 310 272 338 280';
 /** Lead capture and qualification pipeline: traffic → AI gate → qualified routes */
 export function LeadFlowVisual({ className = '' }: LeadFlowVisualProps) {
   const reduce = reduced(useReducedMotion());
+  const isSmall = useIsSmallScreen();
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const inView = useInView(containerRef, { amount: 0.25, margin: '-80px', once: true });
+  const active = !reduce && !isSmall && inView;
   const id = useVisualIds('lead');
 
   return (
     <div
+      ref={containerRef}
       className={`relative w-full ${className}`}
       role="img"
       aria-label="Lead qualification pipeline: organic, paid, and referral traffic filtered by AI into qualified routes"
@@ -98,9 +104,9 @@ export function LeadFlowVisual({ className = '' }: LeadFlowVisualProps) {
             strokeLinecap="round"
             vectorEffect="non-scaling-stroke"
             filter={`url(#${id.filterSoft})`}
-            initial={reduce ? undefined : { pathLength: 0 }}
-            animate={reduce ? undefined : { pathLength: 1 }}
-            transition={{ duration: 1.1, delay: i * 0.1, ease }}
+            initial={active ? { pathLength: 0 } : undefined}
+            animate={active ? { pathLength: 1 } : undefined}
+            transition={active ? { duration: 0.95, delay: i * 0.08, ease } : undefined}
           />
         ))}
 
@@ -111,7 +117,7 @@ export function LeadFlowVisual({ className = '' }: LeadFlowVisualProps) {
           <rect x="-44" y="-14" width="88" height="28" rx="6" fill="hsl(var(--gnk-accent)/0.06)" />
 
           {/* Scan line animation */}
-          {!reduce && (
+          {active && (
             <motion.rect
               x="-44"
               y="-14"
@@ -139,7 +145,7 @@ export function LeadFlowVisual({ className = '' }: LeadFlowVisualProps) {
           {/* Score dots */}
           {[-26, -8, 10, 28].map((dx, i) => (
             <g key={dx} transform={`translate(${dx} -8)`}>
-              {!reduce ? (
+              {active ? (
                 <motion.circle
                   r="2.5"
                   fill="hsl(var(--gnk-accent-2))"
@@ -154,7 +160,7 @@ export function LeadFlowVisual({ className = '' }: LeadFlowVisualProps) {
           ))}
 
           {/* Outer pulse ring */}
-          {!reduce && (
+          {active && (
             <motion.rect
               x="-56"
               y="-26"
@@ -181,9 +187,9 @@ export function LeadFlowVisual({ className = '' }: LeadFlowVisualProps) {
           strokeLinecap="round"
           vectorEffect="non-scaling-stroke"
           filter={`url(#${id.filterSoft})`}
-          initial={reduce ? undefined : { pathLength: 0 }}
-          animate={reduce ? undefined : { pathLength: 1 }}
-          transition={{ duration: 0.9, delay: 0.4, ease }}
+          initial={active ? { pathLength: 0 } : undefined}
+          animate={active ? { pathLength: 1 } : undefined}
+          transition={active ? { duration: 0.8, delay: 0.22, ease } : undefined}
         />
 
         {/* ── Qualified hub ── */}
@@ -220,9 +226,9 @@ export function LeadFlowVisual({ className = '' }: LeadFlowVisualProps) {
             strokeLinecap="round"
             vectorEffect="non-scaling-stroke"
             filter={`url(#${id.filterSoft})`}
-            initial={reduce ? undefined : { pathLength: 0 }}
-            animate={reduce ? undefined : { pathLength: 1 }}
-            transition={{ duration: 1, delay: 0.65 + i * 0.1, ease }}
+            initial={active ? { pathLength: 0 } : undefined}
+            animate={active ? { pathLength: 1 } : undefined}
+            transition={active ? { duration: 0.92, delay: 0.35 + i * 0.08, ease } : undefined}
           />
         ))}
 
@@ -250,7 +256,7 @@ export function LeadFlowVisual({ className = '' }: LeadFlowVisualProps) {
         ))}
 
         {/* ── Particles (inbound) ── */}
-        {!reduce && (
+        {active && (
           <>
             <circle r="3.2" fill="hsl(var(--gnk-accent-2))" opacity="0.88" filter={`url(#${id.bloom})`}>
               <animateMotion dur="4s" repeatCount="indefinite" path={pathT0} />

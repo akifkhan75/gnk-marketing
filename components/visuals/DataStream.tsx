@@ -1,8 +1,9 @@
 'use client';
 
-import { useReducedMotion } from 'framer-motion';
+import { useInView, useReducedMotion } from 'framer-motion';
+import { useRef } from 'react';
 import { RichSvgDefs } from './rich-svg-defs';
-import { reduced, useVisualIds } from './visual-utils';
+import { reduced, useIsSmallScreen, useVisualIds } from './visual-utils';
 
 type DataStreamProps = { className?: string };
 
@@ -18,6 +19,10 @@ const streamPath = (y: number) => `M 72 ${y} L 476 ${y}`;
 /** Continuous data particle streams across multiple signal lanes */
 export function DataStream({ className = '' }: DataStreamProps) {
   const reduce = reduced(useReducedMotion());
+  const isSmall = useIsSmallScreen();
+  const containerRef = useRef<SVGSVGElement | null>(null);
+  const inView = useInView(containerRef, { amount: 0.25, margin: '-80px', once: true });
+  const active = !reduce && !isSmall && inView;
   const id = useVisualIds('ds');
 
   return (
@@ -27,6 +32,7 @@ export function DataStream({ className = '' }: DataStreamProps) {
       aria-label="Live data streams: search, social, email, and ads signals flowing in real time"
     >
       <svg
+        ref={containerRef}
         viewBox="0 0 548 148"
         className="mx-auto h-auto w-full max-w-2xl"
         fill="none"
@@ -108,7 +114,7 @@ export function DataStream({ className = '' }: DataStreamProps) {
               </text>
 
               {/* Particles */}
-              {!reduce &&
+              {active &&
                 lane.dur.map((dur, pi) => (
                   <circle
                     key={pi}

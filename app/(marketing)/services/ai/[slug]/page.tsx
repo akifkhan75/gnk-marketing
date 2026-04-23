@@ -4,7 +4,7 @@ import { ButtonLink } from '@/components/marketing/Button';
 import { Container } from '@/components/marketing/Container';
 import { JsonLd } from '@/components/marketing/JsonLd';
 import { AI_SERVICES, getAIServiceBySlug, getAllAIServiceSlugs } from '@/lib/ai-services';
-import { buildPageMetadata, serviceJsonLd } from '@/lib/seo';
+import { buildPageMetadata, faqPageJsonLd, serviceJsonLd } from '@/lib/seo';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -35,9 +35,15 @@ export default async function AIServicePage({ params }: Props) {
     path: `/services/ai/${service.slug}`,
   });
 
+  const faqLd = faqPageJsonLd({
+    path: `/services/ai/${service.slug}`,
+    questions: service.faqs.map((f) => ({ question: f.q, answer: f.a })),
+  });
+
   return (
     <>
       <JsonLd data={jsonLd} />
+      <JsonLd data={faqLd} />
       <section className="border-b border-gnk-border py-14 sm:py-16">
         <Container>
           <nav className="text-sm text-gnk-muted">

@@ -1,8 +1,9 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { useRef } from 'react';
 import { RichSvgDefs } from './rich-svg-defs';
-import { reduced, useVisualIds } from './visual-utils';
+import { reduced, useIsSmallScreen, useVisualIds } from './visual-utils';
 
 type AutomationPipelineProps = {
   className?: string;
@@ -28,6 +29,10 @@ export function AutomationPipeline({
   labels = defaultLabels,
 }: AutomationPipelineProps) {
   const reduce = reduced(useReducedMotion());
+  const isSmall = useIsSmallScreen();
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const inView = useInView(containerRef, { amount: 0.25, margin: '-80px', once: true });
+  const active = !reduce && !isSmall && inView;
   const id = useVisualIds('pipe');
   const n = Math.min(labels.length, 6);
   const totalW = 560;
@@ -42,7 +47,12 @@ export function AutomationPipeline({
   const ghostPath = `M ${startX} ${secondY} L ${endX} ${secondY}`;
 
   return (
-    <div className={`relative w-full ${className}`} role="img" aria-label="Automation pipeline stages">
+    <div
+      ref={containerRef}
+      className={`relative w-full ${className}`}
+      role="img"
+      aria-label="Automation pipeline stages"
+    >
       <svg
         viewBox="0 0 600 128"
         className="h-auto w-full max-w-2xl"
@@ -64,9 +74,9 @@ export function AutomationPipeline({
           strokeLinecap="round"
           filter={`url(#${id.filterSoft})`}
           vectorEffect="non-scaling-stroke"
-          initial={reduce ? undefined : { pathLength: 0 }}
-          animate={reduce ? undefined : { pathLength: 1 }}
-          transition={{ duration: 1.4, ease }}
+          initial={active ? { pathLength: 0 } : undefined}
+          animate={active ? { pathLength: 1 } : undefined}
+          transition={active ? { duration: 1.05, ease } : undefined}
         />
 
         {/* Secondary ghost rail */}
@@ -124,7 +134,7 @@ export function AutomationPipeline({
               strokeWidth="1.1"
             />
             {/* Status indicator */}
-            {!reduce ? (
+            {active ? (
               <motion.circle
                 r="5"
                 fill={stageColors[i]}
@@ -168,7 +178,7 @@ export function AutomationPipeline({
         ))}
 
         {/* ── Particles ── */}
-        {!reduce && (
+        {active && (
           <>
             <circle r="4" fill="hsl(var(--gnk-accent-2))" opacity="0.92" filter={`url(#${id.bloom})`}>
               <animateMotion dur="5.2s" repeatCount="indefinite" path={mainPath} />

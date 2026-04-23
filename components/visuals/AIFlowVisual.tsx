@@ -1,8 +1,9 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { useRef } from 'react';
 import { RichSvgDefs } from './rich-svg-defs';
-import { reduced, useVisualIds } from './visual-utils';
+import { reduced, useIsSmallScreen, useVisualIds } from './visual-utils';
 
 type AIFlowVisualProps = {
   className?: string;
@@ -20,10 +21,10 @@ const stages = [
 ];
 
 function StageNode({
-  x, y, label, sublabel, isHub, reduce, bloomId, softId,
+  x, y, label, sublabel, isHub, animatePulse, bloomId, softId,
 }: {
   x: number; y: number; label: string; sublabel: string;
-  isHub?: boolean; reduce: boolean; bloomId: string; softId: string;
+  isHub?: boolean; animatePulse: boolean; bloomId: string; softId: string;
 }) {
   const r = isHub ? 28 : 22;
   return (
@@ -64,7 +65,7 @@ function StageNode({
       />
       <circle r={isHub ? 3 : 2} fill="hsl(var(--gnk-accent))" opacity="0.9" />
       {/* Pulse ring on hub */}
-      {isHub && !reduce && (
+      {isHub && animatePulse && (
         <motion.circle
           r={r + 9}
           fill="none"
@@ -102,6 +103,10 @@ function StageNode({
 
 export function AIFlowVisual({ className = '', compact = false }: AIFlowVisualProps) {
   const reduce = reduced(useReducedMotion());
+  const isSmall = useIsSmallScreen();
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const inView = useInView(containerRef, { amount: 0.25, margin: '-80px', once: true });
+  const active = !reduce && !isSmall && inView;
   const id = useVisualIds('aiflow');
 
   const vbW = compact ? 620 : 800;
@@ -120,6 +125,7 @@ export function AIFlowVisual({ className = '', compact = false }: AIFlowVisualPr
 
   return (
     <div
+      ref={containerRef}
       className={`relative w-full ${className}`}
       role="img"
       aria-label="AI workflow pipeline: input signal through qualification, processing, routing, and output delivery"
@@ -160,9 +166,9 @@ export function AIFlowVisual({ className = '', compact = false }: AIFlowVisualPr
             strokeLinecap="round"
             vectorEffect="non-scaling-stroke"
             filter={`url(#${id.filterSoft})`}
-            initial={reduce ? undefined : { pathLength: 0 }}
-            animate={reduce ? undefined : { pathLength: 1 }}
-            transition={{ duration: 1.2, delay: i * 0.15, ease }}
+            initial={active ? { pathLength: 0 } : undefined}
+            animate={active ? { pathLength: 1 } : undefined}
+            transition={active ? { duration: 0.95, delay: i * 0.12, ease } : undefined}
           />
         ))}
 
@@ -189,15 +195,14 @@ export function AIFlowVisual({ className = '', compact = false }: AIFlowVisualPr
             label={s.label}
             sublabel={s.sublabel}
             isHub={i === 2}
-            reduce={reduce}
+            animatePulse={active}
             bloomId={id.bloom}
             softId={id.filterSoft}
           />
         ))}
 
         {/* Particles along full pipeline */}
-        {!reduce && (() => {
-          const fullPath = xs.slice(0, -1).map((x, i) => connPath(x, xs[i + 1])).join(' ');
+        {active && (() => {
           const fullLine = `M ${xs[0]} ${midY} L ${xs[xs.length - 1]} ${midY}`;
           return (
             <>

@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { ButtonLink } from '@/components/marketing/Button';
 import { Container } from '@/components/marketing/Container';
 import { JsonLd } from '@/components/marketing/JsonLd';
-import { buildPageMetadata, serviceJsonLd } from '@/lib/seo';
+import { buildPageMetadata, faqPageJsonLd, serviceJsonLd } from '@/lib/seo';
 import { getAllServiceSlugs, getServiceBySlug } from '@/lib/services';
 
 type Props = { params: Promise<{ slug: string }> };
@@ -35,9 +35,15 @@ export default async function ServicePage({ params }: Props) {
     path: `/services/${service.slug}`,
   });
 
+  const faqLd = faqPageJsonLd({
+    path: `/services/${service.slug}`,
+    questions: service.faqs.map((f) => ({ question: f.q, answer: f.a })),
+  });
+
   return (
     <>
       <JsonLd data={jsonLd} />
+      <JsonLd data={faqLd} />
       <section className="border-b border-gnk-border py-14 sm:py-18">
         <Container>
           <nav className="text-sm text-gnk-muted">

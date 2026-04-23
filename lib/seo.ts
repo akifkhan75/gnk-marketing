@@ -115,3 +115,23 @@ export function blogPostingJsonLd(args: {
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
   };
 }
+
+export function faqPageJsonLd(args: {
+  path: string;
+  questions: Array<{ question: string; answer: string }>;
+}) {
+  const url = `${SITE_URL}${args.path.startsWith('/') ? args.path : `/${args.path}`}`;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: args.questions.map((q) => ({
+      '@type': 'Question',
+      name: q.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: q.answer,
+      },
+    })),
+    url,
+  };
+}
