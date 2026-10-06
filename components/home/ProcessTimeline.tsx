@@ -3,7 +3,9 @@
 import { useRef } from 'react';
 import { DESKTOP_MOTION, gsap, useGSAP } from '@/components/motion/useGsap';
 
-const steps = [
+export type TimelineStep = { step: string; title: string; desc: string };
+
+const defaultSteps: TimelineStep[] = [
   { step: '01', title: 'Diagnose', desc: 'Economics, funnel leaks, and technical constraints—before we spend a dollar on tactics.' },
   { step: '02', title: 'Design', desc: 'A prioritized roadmap: quick wins, structural bets, and clear success metrics.' },
   { step: '03', title: 'Ship', desc: 'Execution with QA discipline: launches, tests, and documentation your team can run.' },
@@ -11,7 +13,7 @@ const steps = [
 ];
 
 /** Process steps — a lime line is scrubbed across with scroll and each node ignites as it's reached. */
-export function ProcessTimeline() {
+export function ProcessTimeline({ steps = defaultSteps }: { steps?: TimelineStep[] }) {
   const root = useRef<HTMLDivElement | null>(null);
 
   useGSAP(
