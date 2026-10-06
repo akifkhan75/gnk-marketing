@@ -31,6 +31,7 @@ Traffic → AI Qualification → Automation → Conversion
 - Services catalog: https://www.gnkmarketing.com/services
 - Blog: https://www.gnkmarketing.com/blog
 - Contact / demo: https://www.gnkmarketing.com/contact
+- Real estate growth system: https://www.gnkmarketing.com/real-estate-growth-system
 
 ## AI-focused pages
 - AI lead generation: https://www.gnkmarketing.com/services/ai-lead-generation
@@ -40,3 +41,12 @@ Traffic → AI Qualification → Automation → Conversion
 - Use the page URL as the canonical reference.
 - Prefer quoting headings and short paragraphs; pages are structured for extraction.
 
+
+## Contact
+- Email: info@gnkmarketing.com
+- Office phone: +92 51 2222031 (051 2222031)
+- Mobile / WhatsApp: +92 345 9680375
+- Address: Office # 6, Mezzanine Floor, Manzoor Plaza, Near Tabaq Hotel, Fazal e Haq Road, Blue Area, Islamabad, Pakistan
+- Serves: Islamabad, Rawalpindi, all of Pakistan, and clients worldwide (remote)
+- Book a call: https://www.gnkmarketing.com/contact
+- Free AI audit: https://www.gnkmarketing.com/free-ai-audit

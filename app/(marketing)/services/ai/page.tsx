@@ -29,7 +29,7 @@ export default function AIServicesHubPage() {
           <p className="font-display text-sm font-semibold uppercase tracking-wider text-gnk-accent">
             AI growth systems
           </p>
-          <h1 className="font-display mt-3 max-w-3xl text-4xl font-bold tracking-tight text-gnk-fg sm:text-5xl">
+          <h1 className="font-display mt-3 max-w-4xl text-display-lg font-semibold text-gnk-fg">
             We don&apos;t just run campaigns—we build AI systems that scale how you acquire and convert customers.
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-gnk-muted">

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { COMPANY, SITE_NAME, SITE_URL } from './site';
+import { COMPANY, SITE_NAME, SITE_TAGLINE, SITE_URL } from './site';
 
 type BuildMetaArgs = {
   title: string;
@@ -48,19 +48,67 @@ export function buildPageMetadata({
   };
 }
 
+const ORG_ID = `${SITE_URL}/#organization`;
+
 export function organizationJsonLd() {
   return {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
+    '@type': ['Organization', 'ProfessionalService'],
+    '@id': ORG_ID,
     name: COMPANY.name,
     legalName: COMPANY.legalName,
+    slogan: SITE_TAGLINE,
     url: COMPANY.url,
     email: COMPANY.email,
-    telephone: COMPANY.phone,
-    logo: COMPANY.logo,
+    telephone: COMPANY.phoneE164,
+    logo: { '@type': 'ImageObject', url: COMPANY.logo },
+    image: `${SITE_URL}/opengraph-image`,
+    priceRange: '$$',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: COMPANY.address.street,
+      addressLocality: COMPANY.address.locality,
+      addressRegion: COMPANY.address.region,
+      postalCode: COMPANY.address.postalCode,
+      addressCountry: COMPANY.address.country,
+    },
+    hasMap: COMPANY.mapsUrl,
+    openingHours: COMPANY.hours,
+    areaServed: [
+      { '@type': 'City', name: 'Islamabad' },
+      { '@type': 'City', name: 'Rawalpindi' },
+      { '@type': 'Country', name: 'Pakistan' },
+      { '@type': 'Place', name: 'Worldwide' },
+    ],
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        contactType: 'sales',
+        telephone: COMPANY.phoneE164,
+        email: COMPANY.email,
+        areaServed: 'Worldwide',
+        availableLanguage: ['English', 'Urdu'],
+      },
+      {
+        '@type': 'ContactPoint',
+        contactType: 'customer support',
+        telephone: COMPANY.mobileE164,
+        availableLanguage: ['English', 'Urdu'],
+      },
+    ],
+    knowsAbout: [
+      'AI marketing',
+      'Marketing automation',
+      'Lead generation',
+      'Search engine optimization',
+      'Pay-per-click advertising',
+      'Conversion rate optimization',
+      'Social media marketing',
+      'Marketing analytics',
+    ],
     sameAs: [...COMPANY.sameAs],
     description:
-      'AI-first performance marketing agency: automated growth systems, SEO, paid media, conversion optimization, and marketing automation.',
+      'AI-first performance marketing agency in Islamabad, Pakistan: automated growth systems, SEO, paid media, conversion optimization, and marketing automation for teams worldwide.',
   };
 }
 
@@ -68,8 +116,24 @@ export function websiteJsonLd() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
+    '@id': `${SITE_URL}/#website`,
     name: SITE_NAME,
     url: SITE_URL,
+    inLanguage: 'en',
+    publisher: { '@id': ORG_ID },
+  };
+}
+
+export function breadcrumbJsonLd(items: Array<{ name: string; path: string }>) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [{ name: 'Home', path: '/' }, ...items].map((item, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: item.name,
+      item: `${SITE_URL}${item.path === '/' ? '' : item.path}`,
+    })),
   };
 }
 
@@ -85,7 +149,7 @@ export function serviceJsonLd(args: {
     '@type': 'Service',
     name: args.name,
     description: args.description,
-    provider: { '@type': 'Organization', name: COMPANY.name, url: COMPANY.url },
+    provider: { '@id': ORG_ID },
     areaServed: args.areaServed ?? 'Worldwide',
     url,
   };
@@ -106,12 +170,9 @@ export function blogPostingJsonLd(args: {
     description: args.description,
     datePublished: args.datePublished,
     dateModified: args.dateModified ?? args.datePublished,
-    author: { '@type': 'Organization', name: COMPANY.name },
-    publisher: {
-      '@type': 'Organization',
-      name: COMPANY.name,
-      logo: { '@type': 'ImageObject', url: COMPANY.logo },
-    },
+    author: { '@type': 'Organization', name: COMPANY.name, url: SITE_URL },
+    publisher: { '@id': ORG_ID },
+    image: `${SITE_URL}/opengraph-image`,
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
   };
 }

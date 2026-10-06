@@ -3,65 +3,202 @@
 @tailwind utilities;
 
 @layer base {
-  /* Premium dark-first (Linear / Vercel-adjacent). `.light` restores a clean light theme. */
+  /* Brand tokens — GNK Marketing logo: white + lime slash on near-black. */
   :root {
     color-scheme: dark;
-    --gnk-bg: 240 14% 4%;
-    --gnk-bg-elevated: 240 12% 7%;
-    --gnk-fg: 210 40% 98%;
-    --gnk-muted: 215 16% 58%;
-    --gnk-border: 217 18% 14%;
-    --gnk-card: 240 11% 8%;
-    --gnk-accent: 263 88% 66%;
-    --gnk-accent-2: 189 94% 48%;
-    --gnk-accent-fg: 240 14% 4%;
-    --gnk-ring: 263 88% 66%;
-    --gnk-glow: 263 70% 55%;
-    /* Card / glass elevation (theme-specific shadow) */
-    --gnk-shadow-card: 0 1px 0 hsl(var(--gnk-border) / 0.9), 0 24px 60px -28px rgb(0 0 0 / 0.55);
-    --gnk-shadow-glow: 0 0 0 1px hsl(var(--gnk-border)), 0 0 60px -12px hsl(var(--gnk-glow) / 0.45);
-    --gnk-shadow-glow-lg: 0 0 0 1px hsl(var(--gnk-border)), 0 0 100px -20px hsl(var(--gnk-glow) / 0.5);
+    --gnk-bg: 0 0% 1.6%;
+    --gnk-bg-elevated: 0 0% 5%;
+    --gnk-fg: 60 14% 96%;
+    --gnk-muted: 70 4% 60%;
+    --gnk-border: 60 3% 13%;
+    --gnk-card: 60 4% 5.5%;
+    --gnk-accent: 70 94% 60%;
+    --gnk-accent-2: 74 100% 75%;
+    --gnk-accent-3: 60 14% 96%;
+    --gnk-accent-fg: 0 0% 2%;
+    --gnk-ring: 70 94% 60%;
+    --gnk-glow: 70 94% 60%;
+    --gnk-lime: #d8f938;
+    --gnk-shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.04) inset, 0 30px 60px -32px rgb(0 0 0 / 0.8);
+    --gnk-shadow-glow: 0 0 0 1px hsl(var(--gnk-border)), 0 0 60px -18px hsl(var(--gnk-glow) / 0.35);
+    --gnk-shadow-glow-lg: 0 0 0 1px hsl(var(--gnk-border)), 0 0 110px -30px hsl(var(--gnk-glow) / 0.4);
     --gnk-inner-glow: inset 0 1px 0 0 rgb(255 255 255 / 0.06);
   }
 
   .light {
     color-scheme: light;
-    --gnk-bg: 220 18% 97%;
+    --gnk-bg: 60 14% 97%;
     --gnk-bg-elevated: 0 0% 100%;
-    --gnk-fg: 222 44% 12%;
-    --gnk-muted: 215 14% 42%;
-    --gnk-border: 220 14% 88%;
+    --gnk-fg: 0 0% 4%;
+    --gnk-muted: 60 3% 38%;
+    --gnk-border: 60 6% 87%;
     --gnk-card: 0 0% 100%;
-    /* Deeper accents on white for WCAG-friendly hovers & links */
-    --gnk-accent: 262 72% 48%;
-    --gnk-accent-2: 199 72% 42%;
-    --gnk-accent-fg: 0 0% 100%;
-    --gnk-ring: 262 72% 48%;
-    --gnk-glow: 262 65% 52%;
-    --gnk-shadow-card: 0 1px 2px rgb(15 23 42 / 0.05), 0 1px 0 rgb(255 255 255 / 0.9) inset,
-      0 20px 50px -24px rgb(15 23 42 / 0.12);
-    --gnk-shadow-glow: 0 0 0 1px hsl(var(--gnk-border)), 0 0 48px -12px hsl(var(--gnk-glow) / 0.28);
-    --gnk-shadow-glow-lg: 0 0 0 1px hsl(var(--gnk-border)), 0 0 72px -16px hsl(var(--gnk-glow) / 0.32);
-    --gnk-inner-glow: inset 0 1px 0 0 rgb(255 255 255 / 0.65), inset 0 -1px 0 0 rgb(15 23 42 / 0.05);
+    /* Lime fails contrast as text on white — accents become a deep olive; buttons stay lime + black */
+    --gnk-accent: 75 85% 30%;
+    --gnk-accent-2: 75 85% 30%;
+    --gnk-accent-3: 0 0% 4%;
+    --gnk-accent-fg: 0 0% 4%;
+    --gnk-ring: 75 85% 30%;
+    --gnk-glow: 70 94% 50%;
+    --gnk-shadow-card: 0 1px 2px rgb(0 0 0 / 0.04), 0 24px 48px -28px rgb(0 0 0 / 0.16);
+    --gnk-shadow-glow: 0 0 0 1px hsl(var(--gnk-border)), 0 0 48px -16px hsl(var(--gnk-glow) / 0.45);
+    --gnk-shadow-glow-lg: 0 0 0 1px hsl(var(--gnk-border)), 0 0 80px -24px hsl(var(--gnk-glow) / 0.45);
+    --gnk-inner-glow: inset 0 1px 0 0 rgb(255 255 255 / 0.8);
   }
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
   }
   body {
     @apply bg-gnk-bg text-gnk-fg antialiased;
+    overflow-x: clip;
+    font-feature-settings: 'cv11', 'ss01';
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: #d8f938;
+    color: #040404;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
   }
   [id] {
     scroll-margin-top: 6rem;
+  }
+  :focus-visible {
+    outline: 2px solid hsl(var(--gnk-ring));
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+@layer components {
+  /* Eyebrow label with the logo's circuit node */
+  .eyebrow {
+    @apply inline-flex items-center gap-2.5 font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-gnk-muted;
+  }
+  .eyebrow::before {
+    content: '';
+    @apply block h-2.5 w-4 shrink-0;
+    background: var(--gnk-lime);
+    clip-path: polygon(45% 0, 100% 0, 55% 100%, 0 100%);
+  }
+
+  /* Glass surface with a 1px gradient hairline border */
+  .surface {
+    @apply relative rounded-3xl bg-gnk-card/70 shadow-card backdrop-blur-xl;
+    border: 1px solid hsl(var(--gnk-border));
+  }
+  .gradient-border {
+    position: relative;
+    isolation: isolate;
+  }
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(
+      140deg,
+      hsl(var(--gnk-fg) / 0.18),
+      hsl(var(--gnk-border) / 0.6) 30%,
+      hsl(var(--gnk-border) / 0.6) 70%,
+      hsl(var(--gnk-accent) / 0.35)
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* Cursor-follow spotlight (set --mx/--my from JS) */
+  .spotlight {
+    --mx: 50%;
+    --my: 0%;
+  }
+  .spotlight::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s;
+    background: radial-gradient(
+      420px circle at var(--mx) var(--my),
+      hsl(var(--gnk-accent) / 0.09),
+      transparent 45%
+    );
+  }
+  .spotlight:hover::after {
+    opacity: 1;
+  }
+
+  .hairline-x {
+    @apply h-px w-full;
+    background: linear-gradient(90deg, transparent, hsl(var(--gnk-fg) / 0.18), hsl(var(--gnk-accent) / 0.6), hsl(var(--gnk-fg) / 0.18), transparent);
+  }
+
+  .grid-bg {
+    background-image: linear-gradient(hsl(var(--gnk-border) / 0.5) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--gnk-border) / 0.5) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 20%, transparent 75%);
+  }
+
+  /* Long-form copy on service/blog pages */
+  .prose-gnk {
+    @apply space-y-5 text-[1.0625rem] leading-[1.75] text-gnk-muted;
+  }
+  .prose-gnk h2 {
+    @apply mt-12 font-display text-2xl font-semibold tracking-tight text-gnk-fg;
+  }
+  .prose-gnk h3 {
+    @apply mt-8 font-display text-lg font-semibold text-gnk-fg;
+  }
+  .prose-gnk a {
+    @apply text-gnk-accent underline decoration-gnk-accent/30 underline-offset-4 hover:decoration-gnk-accent;
+  }
+  .prose-gnk strong {
+    @apply text-gnk-fg;
+  }
+  .prose-gnk ul {
+    @apply list-disc space-y-2 pl-5 marker:text-gnk-accent;
   }
 }
 
 @layer utilities {
   .text-gradient {
-    @apply bg-gradient-to-r from-[hsl(var(--gnk-accent))] via-[hsl(var(--gnk-accent-2))] to-[hsl(var(--gnk-accent))] bg-clip-text text-transparent;
-    background-size: 200% auto;
+    color: hsl(var(--gnk-accent));
+  }
+  /* Lime marker-highlight behind a phrase (logo slash angle) */
+  .text-slash {
+    position: relative;
+    white-space: nowrap;
+    z-index: 0;
+  }
+  .text-slash::after {
+    content: '';
+    position: absolute;
+    left: -0.08em;
+    right: -0.12em;
+    bottom: 0.08em;
+    height: 0.32em;
+    background: #d8f938;
+    clip-path: polygon(2% 0, 100% 0, 98% 100%, 0 100%);
+    z-index: -1;
+    transform-origin: left;
   }
 
   .border-glass {
@@ -70,6 +207,11 @@
 
   .bg-glass {
     @apply bg-gnk-card/60 backdrop-blur-xl backdrop-saturate-150;
+  }
+
+  .mask-fade-x {
+    mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
   }
 }
 
@@ -177,4 +319,198 @@
   .animate-data-stream {
     animation: none !important;
   }
+}
+
+/* Logo stroke draw-in */
+@keyframes draw-stroke {
+  from { stroke-dashoffset: var(--len, 300); }
+  to   { stroke-dashoffset: 0; }
+}
+.animate-draw {
+  stroke-dasharray: var(--len, 300);
+  stroke-dashoffset: var(--len, 300);
+  animation: draw-stroke 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Signal dot travelling along a path (uses offset-path) */
+@keyframes travel {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}
+
+@keyframes ping-soft {
+  0%   { transform: scale(1); opacity: 0.6; }
+  80%, 100% { transform: scale(2.2); opacity: 0; }
+}
+.animate-ping-soft {
+  animation: ping-soft 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-draw { animation: none; stroke-dashoffset: 0; }
+  .animate-ping-soft,
+  .animate-marquee,
+  .animate-spin-slow { animation: none !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* Scroll reveal — only hides content once JS has booted (html.js), so crawlers/no-JS see everything. */
+.js [data-reveal]:not([data-shown]) {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+}
+.js [data-reveal] {
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s);
+}
+.js [data-reveal]:not([data-shown]) [data-reveal-child] {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+}
+.js [data-reveal] [data-reveal-child] {
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.js [data-reveal] [data-reveal-child]:nth-child(2) { transition-delay: 0.08s; }
+.js [data-reveal] [data-reveal-child]:nth-child(3) { transition-delay: 0.16s; }
+.js [data-reveal] [data-reveal-child]:nth-child(4) { transition-delay: 0.24s; }
+.js [data-reveal] [data-reveal-child]:nth-child(5) { transition-delay: 0.32s; }
+.js [data-reveal] [data-reveal-child]:nth-child(6) { transition-delay: 0.4s; }
+.js [data-reveal] [data-reveal-child]:nth-child(n + 7) { transition-delay: 0.48s; }
+
+/* Hero entrance (CSS-only so the LCP text never waits on hydration) */
+@keyframes hero-in {
+  from { opacity: 0; transform: translate3d(0, 18px, 0); filter: blur(6px); }
+  to   { opacity: 1; transform: none; filter: none; }
+}
+.hero-in {
+  animation: hero-in 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--d, 0s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal]:not([data-shown]),
+  .js [data-reveal]:not([data-shown]) [data-reveal-child] {
+    opacity: 1;
+    transform: none;
+  }
+  .hero-in { animation: none; }
+}
+
+/* ── Brand illustrations ─────────────────────────────────────────── */
+@keyframes wave-out {
+  0%   { transform: scale(0.6); opacity: 0; }
+  20%  { opacity: 0.9; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+.ill-wave {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: wave-out 3s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+@keyframes node-light {
+  0%, 100% { opacity: 0.35; }
+  40%, 60% { opacity: 1; }
+}
+.ill-light { animation: node-light 3s ease-in-out infinite; }
+@keyframes dash-flow { to { stroke-dashoffset: -24; } }
+.ill-dash { stroke-dasharray: 4 8; animation: dash-flow 1.2s linear infinite; }
+@keyframes pop-in {
+  0%, 15% { transform: scale(0); opacity: 0; }
+  25%, 85% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1); opacity: 0; }
+}
+.ill-pop { transform-box: fill-box; transform-origin: center; animation: pop-in 4s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+@keyframes slide-stage {
+  0%   { transform: translateX(0); opacity: 0; }
+  8%   { opacity: 1; }
+  92%  { opacity: 1; }
+  100% { transform: translateX(var(--slide, 240px)); opacity: 0; }
+}
+.ill-slide { animation: slide-stage 6s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.ill-float { animation: float-y 5s ease-in-out infinite; }
+@keyframes bar-grow {
+  from { transform: scaleY(0.25); }
+  to { transform: scaleY(1); }
+}
+.ill-bar { transform-box: fill-box; transform-origin: bottom; animation: bar-grow 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite alternate; }
+@keyframes progress-x {
+  0% { transform: scaleX(0.08); }
+  70%, 100% { transform: scaleX(1); }
+}
+.ill-progress { transform-box: fill-box; transform-origin: left; animation: progress-x 6s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+
+/* Line draws in when its reveal section scrolls into view */
+.js [data-reveal] .draw-on-reveal {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 2.2s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+}
+.js [data-reveal][data-shown] .draw-on-reveal { stroke-dashoffset: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ill-wave, .ill-light, .ill-dash, .ill-pop, .ill-slide, .ill-float, .ill-bar, .ill-progress { animation: none !important; }
+  .ill-pop, .ill-slide { opacity: 1; }
+  .js [data-reveal] .draw-on-reveal { stroke-dashoffset: 0; transition: none; }
+  .motion-only { display: none; }
+}
+
+/* ── Logo intro ──────────────────────────────────────────────────── */
+@keyframes mark-rise {
+  from { transform: translate3d(0, 60px, 0); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+.mark-rise { animation: mark-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes mark-slash {
+  0%   { transform: translate3d(-120px, 90px, 0); opacity: 0; }
+  60%  { opacity: 1; }
+  100% { transform: none; opacity: 1; }
+}
+.mark-slash { animation: mark-slash 1s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .mark-rise, .mark-slash { animation: none; }
+}
+
+/* Story chapters stack (crossfaded by GSAP) only on desktop with motion allowed */
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .js .story-chapter { position: absolute; inset: 0 0 auto 0; }
+  .js .story-chapter:not(:first-child) { opacity: 0; visibility: hidden; }
+}
+
+/* ── Split-word reveals ──────────────────────────────────────────── */
+.split-line {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.split-w { display: inline-block; will-change: transform; }
+@keyframes word-up {
+  from { transform: translate3d(0, 108%, 0) rotate(4deg); }
+  to   { transform: none; }
+}
+.split-hero .split-w {
+  animation: word-up 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--d, 0s) + var(--i, 0) * 0.06s);
+}
+.js [data-reveal]:not([data-shown]) .split-reveal .split-w {
+  transform: translate3d(0, 108%, 0) rotate(4deg);
+}
+.js [data-reveal] .split-reveal .split-w {
+  transition: transform 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--d, 0s) + var(--i, 0) * 0.045s);
+}
+/* Lime slash highlight draws in after its words land */
+.split-hero .text-slash::after { animation: slash-draw 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: calc(var(--d, 0s) + 0.6s); }
+.js [data-reveal]:not([data-shown]) .text-slash::after { transform: scaleX(0); }
+.js [data-reveal] .text-slash::after { transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.45s; }
+@keyframes slash-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .split-hero .split-w, .split-hero .text-slash::after { animation: none; }
+  .js [data-reveal]:not([data-shown]) .split-reveal .split-w,
+  .js [data-reveal]:not([data-shown]) .text-slash::after { transform: none; }
 }

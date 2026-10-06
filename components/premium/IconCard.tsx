@@ -1,9 +1,10 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
 import Link from 'next/link';
 import type { ComponentType, ReactNode } from 'react';
 import type { PremiumIconProps } from '@/components/icons/premium/GnkPremiumIcons';
+import { cardShell } from './GlowCard';
+import { useSpotlight } from './SpotlightSurface';
 
 export type IconCardIcon = ComponentType<PremiumIconProps>;
 
@@ -23,9 +24,7 @@ export type IconCardProps = {
   align?: 'start' | 'center';
 };
 
-/**
- * Premium icon tile: glass container, hover lift, neon glow on icon (CSS-only, GPU-friendly).
- */
+/** Premium icon tile: gradient hairline, cursor spotlight, icon glow on hover. */
 export function IconCard({
   icon: Icon,
   title,
@@ -37,60 +36,37 @@ export function IconCard({
   footer,
   align = 'start',
 }: IconCardProps) {
-  const reduce = useReducedMotion();
-  const pad = compact ? 'p-5' : 'p-6 sm:p-7';
+  const spot = useSpotlight();
+  const pad = compact ? 'p-5 sm:p-6' : 'p-6 sm:p-7';
   const alignCls = align === 'center' ? 'flex flex-col items-center text-center' : '';
 
-  const shell = `group/iconcard relative overflow-hidden rounded-3xl border border-gnk-border/90 bg-gnk-card/80 shadow-card backdrop-blur-md transition-[border-color,box-shadow,background-color] duration-300 hover:border-gnk-accent/40 hover:shadow-[0_0_36px_-14px_hsl(var(--gnk-glow)/0.22)] dark:border-white/[0.08] dark:bg-gnk-card/35 dark:hover:border-violet-500/35 dark:hover:shadow-[0_0_40px_-12px_rgba(139,92,246,0.35)] ${pad} ${alignCls} ${className}`;
-
-  const iconShell = `iconcard-icon-wrap mb-5 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-gnk-border/80 bg-gradient-to-br from-gnk-accent/[0.06] to-transparent shadow-[inset_0_1px_0_0_rgb(255_255_255/0.5)] backdrop-blur-sm transition duration-300 group-hover/iconcard:border-gnk-accent/40 group-hover/iconcard:shadow-[0_0_20px_-6px_hsl(var(--gnk-glow)/0.25)] dark:border-white/[0.08] dark:from-white/[0.08] dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.07)] dark:group-hover/iconcard:border-violet-500/35 dark:group-hover/iconcard:shadow-[0_0_24px_-4px_rgba(139,92,246,0.45),0_0_20px_-8px_rgba(34,211,238,0.2)]`;
-
   const inner = (
-    <>
-      {badge ? (
-        <span className="mb-3 inline-flex items-center rounded-full border border-gnk-border/80 bg-gnk-accent/[0.06] px-2.5 py-0.5 font-display text-[10px] font-bold uppercase tracking-[0.18em] text-gnk-accent dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-violet-300/90">
-          {badge}
-        </span>
-      ) : null}
-      <div className={iconShell}>
-        <motion.span
-          className="flex text-gnk-muted transition duration-300 group-hover/iconcard:text-gnk-accent dark:group-hover/iconcard:text-violet-200"
-          whileHover={reduce ? undefined : { scale: 1.08 }}
-          transition={{ type: 'spring', stiffness: 520, damping: 22 }}
-        >
-          <Icon
-            className="h-7 w-7 transition-[filter,transform] duration-300 group-hover/iconcard:drop-shadow-[0_0_8px_hsl(var(--gnk-glow)/0.45)] dark:group-hover/iconcard:drop-shadow-[0_0_10px_rgba(167,139,250,0.55)]"
-          />
-        </motion.span>
+    <div className={`relative z-[1] ${alignCls}`}>
+      <div className="mb-5 flex items-center justify-between gap-3">
+        <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-gnk-border bg-gradient-to-b from-gnk-bg-elevated to-gnk-card text-gnk-fg shadow-inner-glow transition-[border-color,box-shadow,color] duration-500 group-hover/card:border-gnk-accent/50 group-hover/card:text-gnk-accent group-hover/card:shadow-[0_0_28px_-6px_hsl(var(--gnk-glow)/0.6)] dark:border-white/[0.08] dark:group-hover/card:text-violet-300">
+          <Icon className="h-6 w-6 transition-transform duration-500 ease-out-expo group-hover/card:scale-110" />
+        </div>
+        {badge ? (
+          <span className="font-mono text-[11px] font-medium tracking-[0.18em] text-gnk-muted">{badge}</span>
+        ) : null}
       </div>
-      <h3 className="font-display text-base font-semibold text-gnk-fg transition duration-300 group-hover/iconcard:text-gnk-accent dark:group-hover/iconcard:text-violet-100 sm:text-lg">
-        {title}
-      </h3>
+      <h3 className="font-display text-[1.0625rem] font-semibold tracking-[-0.01em] text-gnk-fg">{title}</h3>
       <p className="mt-2 text-sm leading-relaxed text-gnk-muted">{description}</p>
-      {footer ? <div className="mt-4">{footer}</div> : null}
-    </>
+      {footer ? <div className="mt-5">{footer}</div> : null}
+    </div>
   );
 
   if (href) {
     return (
-      <motion.div
-        whileHover={reduce ? undefined : { y: -4 }}
-        transition={{ duration: 0.28, ease: [0.25, 0.4, 0.25, 1] }}
-      >
-        <Link href={href} className={`block ${shell}`}>
-          {inner}
-        </Link>
-      </motion.div>
+      <Link href={href} className={`${cardShell} ${pad} ${className}`} {...spot}>
+        {inner}
+      </Link>
     );
   }
 
   return (
-    <motion.div
-      className={shell}
-      whileHover={reduce ? undefined : { y: -4 }}
-      transition={{ duration: 0.28, ease: [0.25, 0.4, 0.25, 1] }}
-    >
+    <div className={`${cardShell} ${pad} ${className}`} {...spot}>
       {inner}
-    </motion.div>
+    </div>
   );
 }

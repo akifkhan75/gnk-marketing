@@ -2,7 +2,7 @@ import { HomePage } from '@/components/marketing/HomePage';
 import { buildPageMetadata } from '@/lib/seo';
 
 export const metadata = buildPageMetadata({
-  title: 'AI Marketing Agency | Marketing Automation Services | Lead Generation Agency',
+  title: 'AI Marketing Agency & Marketing Automation Services',
   description:
     'GNK Marketing is an AI-first marketing agency building automation systems that qualify leads, reduce manual follow-up, and increase conversion. Marketing automation services, AI lead generation, and performance growth.',
   path: '/',

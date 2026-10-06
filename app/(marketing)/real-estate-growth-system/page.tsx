@@ -114,7 +114,7 @@ export default function RealEstateGrowthSystemPage() {
             <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.24em] text-gnk-accent dark:text-violet-400/80">
               Productized offering
             </p>
-            <h1 className="mt-4 max-w-4xl font-display text-4xl font-bold tracking-tight text-gnk-fg sm:text-6xl">
+            <h1 className="mt-4 max-w-4xl font-display text-display-lg font-semibold text-gnk-fg">
               AI-Powered Real Estate Growth System
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-gnk-muted">

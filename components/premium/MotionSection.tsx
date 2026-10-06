@@ -1,32 +1,56 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
-import type { ReactNode } from 'react';
+import { useEffect, useRef, type ElementType, type ReactNode } from 'react';
 
+/**
+ * Scroll reveal driven by IntersectionObserver + CSS (see `[data-reveal]` in globals.css).
+ * Content is fully visible without JS, and no animation library ships for it.
+ * Children marked `data-reveal-child` stagger in sequence.
+ */
 export function MotionSection({
   children,
   className = '',
   delay = 0,
+  as: Tag = 'div',
+  id,
 }: {
   children: ReactNode;
   className?: string;
   delay?: number;
+  as?: ElementType;
+  id?: string;
 }) {
-  const reduce = useReducedMotion();
+  const ref = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            el.setAttribute('data-shown', '');
+            io.disconnect();
+          }
+        }
+      },
+      { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
-    <motion.div
+    <Tag
+      ref={ref}
+      id={id}
+      data-reveal=""
       className={className}
-      initial={reduce ? undefined : { opacity: 0, y: 28 }}
-      whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px', amount: 0.2 }}
-      transition={{
-        duration: reduce ? 0 : 0.55,
-        delay: reduce ? 0 : delay,
-        ease: [0.25, 0.4, 0.25, 1],
-      }}
+      style={delay ? ({ ['--reveal-delay' as string]: `${delay}s` } as React.CSSProperties) : undefined}
     >
       {children}
-    </motion.div>
+    </Tag>
   );
 }
+
+export const Reveal = MotionSection;

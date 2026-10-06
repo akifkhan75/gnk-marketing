@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { SplitWords } from '@/components/motion/SplitWords';
 
 export function SectionHeading({
   eyebrow,
@@ -6,33 +7,29 @@ export function SectionHeading({
   description,
   align = 'left',
   gradientTitle = false,
+  as: Tag = 'h2',
 }: {
   eyebrow?: string;
-  title: string;
+  title: ReactNode;
   description?: ReactNode;
   align?: 'left' | 'center';
-  /** Accent phrase styling for hero-style headings */
+  /** Brand-gradient title (use sparingly) */
   gradientTitle?: boolean;
+  as?: 'h1' | 'h2';
 }) {
-  const a = align === 'center' ? 'text-center mx-auto' : '';
+  const center = align === 'center';
   return (
-    <div className={`max-w-3xl ${a}`}>
-      {eyebrow ? (
-        <p className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-gnk-accent dark:text-violet-400/90">
-          {eyebrow}
-        </p>
-      ) : null}
-      <h2
-        className={`font-display mt-4 text-3xl font-bold tracking-tight sm:text-4xl ${
-          gradientTitle
-            ? 'text-gradient bg-[length:200%_auto] animate-gradient-shift'
-            : 'text-gnk-fg'
-        }`}
+    <div className={`max-w-3xl ${center ? 'mx-auto text-center' : ''}`}>
+      {eyebrow ? <p className={`eyebrow ${center ? 'justify-center' : ''}`}>{eyebrow}</p> : null}
+      <Tag
+        className={`mt-5 font-display text-display-md font-semibold ${gradientTitle ? 'text-gradient' : 'text-gnk-fg'}`}
       >
-        {title}
-      </h2>
+        {typeof title === 'string' ? <SplitWords segments={[title]} /> : title}
+      </Tag>
       {description ? (
-        <div className="mt-4 text-lg leading-relaxed text-gnk-muted">{description}</div>
+        <div className={`mt-5 text-[1.0625rem] leading-relaxed text-gnk-muted ${center ? 'mx-auto max-w-2xl' : 'max-w-2xl'}`}>
+          {description}
+        </div>
       ) : null}
     </div>
   );

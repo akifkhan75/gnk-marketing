@@ -5,7 +5,7 @@ export default function NotFoundPage() {
   return (
     <Container className="py-32 text-center">
       <p className="font-display text-sm font-semibold text-gnk-accent">404</p>
-      <h1 className="font-display mt-4 text-4xl font-bold text-gnk-fg sm:text-5xl">Page not found</h1>
+      <h1 className="font-display mt-4 text-display-lg font-semibold text-gnk-fg">Page not found</h1>
       <p className="mx-auto mt-4 max-w-md text-gnk-muted">
         That URL may be outdated or mistyped. Start from the homepage or contact us if you need help finding
         something specific.

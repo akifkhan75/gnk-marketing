@@ -48,7 +48,7 @@ export default function AIAutomationPage() {
           <p className="font-display text-sm font-semibold uppercase tracking-wider text-gnk-accent">
             AI automation
           </p>
-          <h1 className="font-display mt-3 max-w-4xl text-4xl font-bold tracking-tight text-gnk-fg sm:text-5xl">
+          <h1 className="font-display mt-3 max-w-4xl text-display-lg font-semibold text-gnk-fg">
             Marketing automation services that feel human—and drive conversion.
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-gnk-muted">

@@ -64,7 +64,7 @@ export default function AIMarketingServicePage() {
           <p className="font-display text-sm font-semibold uppercase tracking-wider text-gnk-accent">
             AI-Powered Growth System
           </p>
-          <h1 className="font-display mt-3 max-w-4xl text-4xl font-bold tracking-tight text-gnk-fg sm:text-5xl">
+          <h1 className="font-display mt-3 max-w-4xl text-display-lg font-semibold text-gnk-fg">
             AI-driven growth, automation, and conversion
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-gnk-muted">
@@ -238,7 +238,7 @@ export default function AIMarketingServicePage() {
               },
             ].map((p) => (
               <li key={p.step} className="rounded-3xl border border-gnk-border bg-gnk-card p-7">
-                <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-gnk-accent">
+                <p className="eyebrow">
                   {p.step}
                 </p>
                 <p className="mt-3 text-sm leading-relaxed text-gnk-muted">{p.detail}</p>

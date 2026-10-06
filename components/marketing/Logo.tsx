@@ -1,16 +1,29 @@
 import Link from 'next/link';
+import { BrandMark } from '@/components/brand/BrandMark';
 
-export function Logo({ className = '' }: { className?: string }) {
+/** Stacked lockup — GNK mark over a wide-tracked MARKETING wordmark, as in the master logo. */
+export function Logo({
+  className = '',
+  size = 'md',
+  animated = false,
+}: {
+  className?: string;
+  size?: 'md' | 'lg';
+  animated?: boolean;
+}) {
+  const markH = size === 'lg' ? 'h-9' : 'h-[22px]';
+  const word = size === 'lg' ? 'text-[0.62rem] mt-2.5' : 'text-[0.45rem] mt-[5px]';
   return (
     <Link
       href="/"
-      className={`group flex items-center gap-2.5 font-display text-lg font-bold tracking-tight ${className}`}
+      aria-label="GNK Marketing — home"
+      className={`group inline-flex flex-col items-start text-gnk-fg ${className}`}
     >
-      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 via-violet-600 to-cyan-400 text-sm font-extrabold text-white shadow-glow ring-1 ring-black/10 transition group-hover:shadow-glow-lg dark:ring-white/15">
-        G
-      </span>
-      <span className="text-gnk-fg">
-        GNK <span className="text-gnk-muted font-semibold">Marketing</span>
+      <BrandMark animated={animated} title="" className={`${markH} w-auto overflow-visible`} />
+      <span aria-hidden className={`flex w-full justify-between px-[3%] font-display font-semibold uppercase leading-none ${word}`}>
+        {'MARKETING'.split('').map((ch, i) => (
+          <span key={i}>{ch}</span>
+        ))}
       </span>
     </Link>
   );

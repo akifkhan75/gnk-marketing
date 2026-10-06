@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { ButtonLink } from '@/components/marketing/Button';
 import { Container } from '@/components/marketing/Container';
 import { JsonLd } from '@/components/marketing/JsonLd';
-import { buildPageMetadata, faqPageJsonLd, serviceJsonLd } from '@/lib/seo';
+import { breadcrumbJsonLd, buildPageMetadata, faqPageJsonLd, serviceJsonLd } from '@/lib/seo';
 import { getAllServiceSlugs, getServiceBySlug } from '@/lib/services';
 
 type Props = { params: Promise<{ slug: string }> };
@@ -44,16 +44,18 @@ export default async function ServicePage({ params }: Props) {
     <>
       <JsonLd data={jsonLd} />
       <JsonLd data={faqLd} />
-      <section className="border-b border-gnk-border py-14 sm:py-18">
-        <Container>
-          <nav className="text-sm text-gnk-muted">
+      <JsonLd data={breadcrumbJsonLd([{ name: 'Services', path: '/services' }, { name: service.title, path: `/services/${service.slug}` }])} />
+      <section className="relative overflow-hidden border-b border-gnk-border py-14 dark:border-white/[0.06] sm:py-20">
+        <div className="grid-bg pointer-events-none absolute inset-0 opacity-50" aria-hidden />
+        <Container className="relative">
+          <nav aria-label="Breadcrumb" className="font-mono text-[11px] uppercase tracking-[0.16em] text-gnk-muted">
             <Link href="/services" className="hover:text-gnk-fg">
               Services
             </Link>
             <span className="mx-2">/</span>
             <span className="text-gnk-fg">{service.title}</span>
           </nav>
-          <h1 className="font-display mt-6 max-w-3xl text-4xl font-bold tracking-tight text-gnk-fg sm:text-5xl">
+          <h1 className="mt-6 max-w-4xl font-display text-display-lg font-semibold text-gnk-fg">
             {service.title}
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-gnk-muted">{service.shortDescription}</p>
@@ -127,12 +129,17 @@ export default async function ServicePage({ params }: Props) {
       <section className="border-t border-gnk-border bg-gnk-card py-14 sm:py-18">
         <Container>
           <h2 className="font-display text-2xl font-bold text-gnk-fg">FAQs</h2>
-          <div className="mt-8 divide-y divide-gnk-border rounded-3xl border border-gnk-border bg-gnk-bg">
-            {service.faqs.map((f) => (
-              <div key={f.q} className="p-6 sm:p-8">
-                <h3 className="font-display font-semibold text-gnk-fg">{f.q}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-gnk-muted">{f.a}</p>
-              </div>
+          <div className="mt-8 divide-y divide-gnk-border overflow-hidden rounded-3xl border border-gnk-border bg-gnk-bg/60 dark:divide-white/[0.07] dark:border-white/[0.07]">
+            {service.faqs.map((f, i) => (
+              <details key={f.q} className="group" open={i === 0}>
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 p-6 transition-colors hover:bg-white/[0.02] sm:px-8 [&::-webkit-details-marker]:hidden">
+                  <h3 className="font-display font-semibold text-gnk-fg">{f.q}</h3>
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-gnk-border text-gnk-muted transition-transform duration-300 group-open:rotate-45 group-open:border-gnk-accent/50 group-open:text-gnk-accent dark:border-white/10">
+                    +
+                  </span>
+                </summary>
+                <p className="px-6 pb-6 text-sm leading-relaxed text-gnk-muted sm:px-8">{f.a}</p>
+              </details>
             ))}
           </div>
           <div className="mt-12 rounded-3xl border border-gnk-border bg-gnk-bg p-8 text-center">

@@ -4,7 +4,7 @@ import { ButtonLink } from '@/components/marketing/Button';
 import { Container } from '@/components/marketing/Container';
 import { JsonLd } from '@/components/marketing/JsonLd';
 import { getAllPostSlugs, getPostBySlug } from '@/lib/blog';
-import { blogPostingJsonLd, buildPageMetadata } from '@/lib/seo';
+import { breadcrumbJsonLd, blogPostingJsonLd, buildPageMetadata } from '@/lib/seo';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -40,6 +40,7 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <>
       <JsonLd data={jsonLd} />
+      <JsonLd data={breadcrumbJsonLd([{ name: 'Insights', path: '/blog' }, { name: post.title, path: `/blog/${post.slug}` }])} />
       <article>
         <header className="border-b border-gnk-border py-14 sm:py-16">
           <Container>
@@ -53,7 +54,7 @@ export default async function BlogPostPage({ params }: Props) {
             <time className="mt-6 block text-sm text-gnk-muted" dateTime={post.datePublished}>
               Published {post.datePublished}
             </time>
-            <h1 className="font-display mt-4 max-w-3xl text-4xl font-bold tracking-tight text-gnk-fg sm:text-5xl">
+            <h1 className="font-display mt-4 max-w-4xl text-display-lg font-semibold text-gnk-fg">
               {post.title}
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-gnk-muted">{post.description}</p>
