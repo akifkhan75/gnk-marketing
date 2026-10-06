@@ -14,7 +14,9 @@ export const metadata = buildPageMetadata({
   path: '/services',
   keywords: [
     'digital marketing agency services',
+    'lead generation agency',
     'AI marketing automation',
+    'marketing automation services',
     'SEO',
     'PPC',
     'CRO',
@@ -28,7 +30,7 @@ export default function ServicesPage() {
       <section className="border-b border-gnk-border py-16 sm:py-20">
         <Container>
           <p className="font-display text-sm font-semibold uppercase tracking-wider text-gnk-accent">Services</p>
-          <h1 className="font-display mt-3 max-w-3xl text-4xl font-bold tracking-tight text-gnk-fg sm:text-5xl">
+          <h1 className="font-display mt-3 max-w-4xl text-display-lg font-semibold text-gnk-fg">
             Everything you need to acquire, convert, and retain—without the agency chaos.
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-gnk-muted">
@@ -65,6 +67,22 @@ export default function ServicesPage() {
               lines.
             </p>
             <span className="mt-4 inline-block text-sm font-semibold text-gnk-accent">Open AI systems hub →</span>
+          </Link>
+          <Link
+            href="/services/ai-marketing"
+            className="mt-6 block rounded-3xl border border-gnk-border bg-gnk-card/60 p-6 transition hover:border-gnk-accent/40 hover:shadow-card sm:p-8"
+          >
+            <p className="font-display text-sm font-semibold uppercase tracking-wider text-gnk-muted">
+              Flagship service
+            </p>
+            <p className="mt-2 font-display text-xl font-bold text-gnk-fg sm:text-2xl">
+              AI Marketing Agency Growth System
+            </p>
+            <p className="mt-2 text-sm text-gnk-muted">
+              Traffic capture → AI qualification → automation workflows → conversion. Built to generate leads with AI,
+              not just “add a chatbot.”
+            </p>
+            <span className="mt-4 inline-block text-sm font-semibold text-gnk-accent">View AI marketing service →</span>
           </Link>
           <Link
             href="/real-estate-growth-system"

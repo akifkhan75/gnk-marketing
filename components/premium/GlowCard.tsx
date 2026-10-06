@@ -1,8 +1,8 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
+import { useSpotlight } from './SpotlightSurface';
 
 type GlowCardProps = {
   children: ReactNode;
@@ -10,34 +10,23 @@ type GlowCardProps = {
   href?: string;
 };
 
+export const cardShell =
+  'spotlight gradient-border group/card relative block overflow-hidden rounded-3xl bg-gnk-card/70 shadow-card backdrop-blur-xl transition-[transform,box-shadow] duration-500 ease-out-expo hover:-translate-y-1 hover:shadow-glow';
+
 export function GlowCard({ children, className = '', href }: GlowCardProps) {
-  const reduce = useReducedMotion();
-
-  const shell = `group/card relative overflow-hidden rounded-3xl border border-gnk-border/90 bg-gnk-card/80 shadow-card backdrop-blur-md transition-[box-shadow,border-color,background-color] duration-300 hover:border-gnk-accent/35 hover:shadow-glow dark:border-white/[0.08] dark:bg-gnk-card/35 dark:hover:border-violet-500/35 ${className}`;
-
-  const pad = (
-    <div className="relative p-6 sm:p-8">
-      <div className="pointer-events-none absolute inset-0 bg-card-shine opacity-40" />
-      <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-violet-500/10 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100" />
-      <div className="relative">{children}</div>
-    </div>
-  );
+  const spot = useSpotlight();
+  const inner = <div className="relative z-[1] p-6 sm:p-8">{children}</div>;
 
   if (href) {
     return (
-      <Link href={href} className={`block ${shell}`}>
-        <motion.div whileHover={reduce ? undefined : { y: -4 }} transition={{ duration: 0.22, ease: 'easeOut' }}>
-          {pad}
-        </motion.div>
+      <Link href={href} className={`${cardShell} ${className}`} {...spot}>
+        {inner}
       </Link>
     );
   }
-
   return (
-    <div className={shell}>
-      <motion.div whileHover={reduce ? undefined : { y: -4 }} transition={{ duration: 0.22, ease: 'easeOut' }}>
-        {pad}
-      </motion.div>
+    <div className={`${cardShell} ${className}`} {...spot}>
+      {inner}
     </div>
   );
 }

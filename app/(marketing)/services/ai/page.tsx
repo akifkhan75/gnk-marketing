@@ -7,14 +7,16 @@ import { AI_SERVICES } from '@/lib/ai-services';
 import { buildPageMetadata } from '@/lib/seo';
 
 export const metadata = buildPageMetadata({
-  title: 'AI-Powered Marketing & Automation Systems',
+  title: 'AI Marketing Agency Systems | Marketing Automation Services',
   description:
-    'GNK builds AI systems that replace manual marketing work: chatbots, funnels, ads optimization, voice, and analytics—measured on revenue, time saved, and cost per outcome.',
+    'GNK is an AI marketing agency building automation systems that replace manual marketing work: AI chatbots, AI lead generation, funnel optimization, and measurement—engineered for qualified pipeline.',
   path: '/services/ai',
   keywords: [
-    'AI marketing agency',
-    'marketing automation AI',
-    'AI chatbot business',
+    'ai marketing agency',
+    'marketing automation services',
+    'lead generation agency',
+    'ai lead generation',
+    'ai chatbot marketing',
     'AI sales funnel',
   ],
 });
@@ -27,7 +29,7 @@ export default function AIServicesHubPage() {
           <p className="font-display text-sm font-semibold uppercase tracking-wider text-gnk-accent">
             AI growth systems
           </p>
-          <h1 className="font-display mt-3 max-w-3xl text-4xl font-bold tracking-tight text-gnk-fg sm:text-5xl">
+          <h1 className="font-display mt-3 max-w-4xl text-display-lg font-semibold text-gnk-fg">
             We don&apos;t just run campaigns—we build AI systems that scale how you acquire and convert customers.
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-gnk-muted">
@@ -43,6 +45,15 @@ export default function AIServicesHubPage() {
             </ButtonLink>
             <ButtonLink href="/contact" variant="secondary">
               Book a demo
+            </ButtonLink>
+            <ButtonLink href="/services/ai-marketing" variant="outline">
+              AI marketing growth system
+            </ButtonLink>
+            <ButtonLink href="/services/ai-lead-generation" variant="outline">
+              AI lead generation
+            </ButtonLink>
+            <ButtonLink href="/services/ai-automation" variant="outline">
+              AI automation
             </ButtonLink>
             <ButtonLink href="/services" variant="outline">
               Classic marketing services

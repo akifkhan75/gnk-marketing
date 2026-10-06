@@ -66,10 +66,10 @@ export default function CaseStudiesPage() {
     <>
       <section className="border-b border-gnk-border py-16 sm:py-20">
         <Container>
-          <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-gnk-accent dark:text-violet-400/80">
+          <p className="eyebrow">
             Case studies
           </p>
-          <h1 className="font-display mt-3 max-w-3xl text-4xl font-bold tracking-tight text-gnk-fg sm:text-5xl">
+          <h1 className="font-display mt-3 max-w-4xl text-display-lg font-semibold text-gnk-fg">
             Proof in patterns—not promises.
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-gnk-muted">
@@ -90,7 +90,7 @@ export default function CaseStudiesPage() {
       {/* Live signal data stream visual */}
       <section className="border-b border-gnk-border/60 bg-gnk-card/20 py-12 dark:border-white/[0.05] dark:bg-gnk-card/10 sm:py-16">
         <Container>
-          <p className="text-center font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-gnk-accent dark:text-violet-400/80">
+          <p className="eyebrow flex justify-center">
             Signal layer
           </p>
           <h2 className="mt-2 text-center font-display text-xl font-bold text-gnk-fg sm:text-2xl">

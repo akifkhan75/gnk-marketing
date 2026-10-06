@@ -1,8 +1,10 @@
 import { ImageResponse } from 'next/og';
-import { SITE_NAME } from '@/lib/site';
+import { OgMark } from '@/lib/og-mark';
+import { SITE_NAME, SITE_TAGLINE } from '@/lib/site';
 
-export const alt = SITE_NAME;
+export const alt = `${SITE_NAME} — ${SITE_TAGLINE}`;
 export const size = { width: 1200, height: 630 };
+export const contentType = 'image/png';
 
 export default function OpengraphImage() {
   return new ImageResponse(
@@ -13,21 +15,39 @@ export default function OpengraphImage() {
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
+          justifyContent: 'space-between',
           padding: 72,
-          background: 'linear-gradient(135deg, #09090b 0%, #1e1b4b 42%, #0e7490 100%)',
-          color: '#fafafa',
-          fontSize: 62,
-          fontWeight: 700,
-          letterSpacing: -0.04,
+          color: '#f5f5f2',
+          backgroundColor: '#040404',
+          position: 'relative',
         }}
       >
-        <div style={{ fontSize: 26, opacity: 0.88, marginBottom: 20, color: '#c4b5fd' }}>
-          AI-first growth infrastructure
+        {/* Oversized lime slash */}
+        <div
+          style={{
+            position: 'absolute',
+            right: -40,
+            top: 0,
+            width: 520,
+            height: 630,
+            display: 'flex',
+          }}
+        >
+          <svg width="520" height="630" viewBox="0 0 520 630">
+            <path d="M330 0H520L190 630H0Z" fill="#d8f938" />
+          </svg>
         </div>
-        <div style={{ maxWidth: 920, lineHeight: 1.05 }}>{SITE_NAME}</div>
-        <div style={{ marginTop: 32, fontSize: 28, fontWeight: 500, opacity: 0.82, color: '#67e8f9' }}>
-          Systems · Automation · Performance
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <OgMark width={300} />
+          <div style={{ fontSize: 22, letterSpacing: 14, marginTop: 18, fontWeight: 600 }}>MARKETING</div>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', maxWidth: 720 }}>
+          <div style={{ fontSize: 64, fontWeight: 700, lineHeight: 1.04, letterSpacing: -2.5 }}>
+            Revenue infrastructure for teams who ship outcomes.
+          </div>
+          <div style={{ display: 'flex', marginTop: 26, gap: 14, fontSize: 22, color: '#9a9b94' }}>
+            <span>SEO</span><span>·</span><span>Paid media</span><span>·</span><span>AI automation</span><span>·</span><span>CRO</span>
+          </div>
         </div>
       </div>
     ),

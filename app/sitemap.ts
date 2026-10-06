@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { getAllAIServiceSlugs } from '@/lib/ai-services';
-import { getAllPostSlugs } from '@/lib/blog';
+import { BLOG_POSTS } from '@/lib/blog';
 import { getAllServiceSlugs } from '@/lib/services';
 import { SITE_URL } from '@/lib/site';
 
@@ -8,6 +8,10 @@ const staticPaths = [
   '',
   '/about',
   '/services',
+  '/services/ai-marketing',
+  '/services/ai-lead-generation',
+  '/services/ai-automation',
+  '/real-estate-growth-system',
   '/case-studies',
   '/blog',
   '/contact',
@@ -43,9 +47,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }));
 
-  const posts: MetadataRoute.Sitemap = getAllPostSlugs().map((slug) => ({
-    url: `${SITE_URL}/blog/${slug}`,
-    lastModified,
+  const posts: MetadataRoute.Sitemap = BLOG_POSTS.map((post) => ({
+    url: `${SITE_URL}/blog/${post.slug}`,
+    lastModified: new Date(post.dateModified ?? post.datePublished),
     changeFrequency: 'monthly',
     priority: 0.65,
   }));

@@ -1,4 +1,5 @@
 export { AIFlowVisual } from './AIFlowVisual';
+export { AIMarketingSystemFlow } from './AIMarketingSystemFlow';
 export { AnalyticsStreamVisual } from './AnalyticsStreamVisual';
 export { AutomationPipeline } from './AutomationPipeline';
 export { ContactBackground } from './ContactBackground';

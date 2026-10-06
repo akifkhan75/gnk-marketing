@@ -32,7 +32,7 @@ export function HeroVisual() {
             strokeDasharray="10 12"
           />
         </motion.g>
-        <circle cx="200" cy="200" r="56" fill="rgb(139 92 246 / 0.15)" stroke="rgb(139 92 246 / 0.45)" strokeWidth="1" />
+        <circle cx="200" cy="200" r="56" fill="rgb(216 249 56/0.083)" stroke="rgb(216 249 56/0.248)" strokeWidth="1" />
         <circle cx="200" cy="200" r="28" fill="rgb(34 211 238 / 0.22)" stroke="rgb(34 211 238 / 0.55)" strokeWidth="1" />
         <motion.g
           initial={reduce ? undefined : { opacity: 0 }}

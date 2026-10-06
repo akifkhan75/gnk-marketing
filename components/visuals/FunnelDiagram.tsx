@@ -1,8 +1,9 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { useRef } from 'react';
 import { RichSvgDefs } from './rich-svg-defs';
-import { reduced, useVisualIds } from './visual-utils';
+import { reduced, useIsSmallScreen, useVisualIds } from './visual-utils';
 
 type FunnelDiagramProps = {
   className?: string;
@@ -38,6 +39,10 @@ export function FunnelDiagram({
   steps = defaultSteps,
 }: FunnelDiagramProps) {
   const reduce = reduced(useReducedMotion());
+  const isSmall = useIsSmallScreen();
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const inView = useInView(containerRef, { amount: 0.25, margin: '-80px', once: true });
+  const active = !reduce && !isSmall && inView;
   const id = useVisualIds('funnel');
 
   /* Drain path from top tier to bottom */
@@ -51,7 +56,12 @@ export function FunnelDiagram({
   ];
 
   return (
-    <div className={`relative mx-auto w-full max-w-[260px] ${className}`} role="img" aria-label="Sales funnel stages">
+    <div
+      ref={containerRef}
+      className={`relative mx-auto w-full max-w-[260px] ${className}`}
+      role="img"
+      aria-label="Sales funnel stages"
+    >
       <svg
         viewBox="0 0 300 292"
         className="h-auto w-full"
@@ -76,9 +86,9 @@ export function FunnelDiagram({
           return (
             <motion.g
               key={i}
-              initial={reduce ? undefined : { opacity: 0, y: 10 }}
-              animate={reduce ? undefined : { opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 0.08 * i, ease }}
+              initial={active ? { opacity: 0, y: 10 } : undefined}
+              animate={active ? { opacity: 1, y: 0 } : undefined}
+              transition={active ? { duration: 0.5, delay: 0.07 * i, ease } : undefined}
             >
               {/* Front face */}
               <path
@@ -136,13 +146,13 @@ export function FunnelDiagram({
           strokeWidth="2"
           strokeDasharray="5 9"
           strokeLinecap="round"
-          className={reduce ? '' : 'animate-ai-flow-dash'}
+          className={active ? 'animate-ai-flow-dash' : ''}
           opacity="0.55"
           filter={`url(#${id.filterSoft})`}
         />
 
         {/* Drain particles */}
-        {!reduce &&
+        {active &&
           drainPaths.map((dp, i) => (
             <circle key={i} r="2.5" fill="hsl(var(--gnk-accent-2))" opacity="0.75" filter={i === 1 ? `url(#${id.bloom})` : undefined}>
               <animateMotion dur={`${3.2 + i * 0.4}s`} repeatCount="indefinite" path={dp} begin={`${i * 0.7}s`} />
@@ -152,7 +162,7 @@ export function FunnelDiagram({
         {/* Output dot at bottom */}
         <g transform={`translate(${CX} ${tiers[3].y + tiers[3].h + 6})`}>
           <circle r="10" fill="hsl(var(--gnk-bg-elevated))" stroke="hsl(var(--gnk-accent-2)/0.5)" strokeWidth="1.1" />
-          {!reduce ? (
+          {active ? (
             <motion.circle r="14" fill="none" stroke="hsl(var(--gnk-accent-2))" strokeWidth="0.65" strokeOpacity="0.28"
               animate={{ opacity: [0.1, 0.4, 0.1] }} transition={{ duration: 2.2, repeat: Infinity }} />
           ) : null}

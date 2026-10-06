@@ -1,8 +1,9 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { useRef } from 'react';
 import { RichSvgDefs } from './rich-svg-defs';
-import { reduced, useVisualIds } from './visual-utils';
+import { reduced, useIsSmallScreen, useVisualIds } from './visual-utils';
 
 type GrowthGraphVisualProps = { className?: string };
 
@@ -35,10 +36,19 @@ const netEdges: [number, number][] = [
 
 export function GrowthGraphVisual({ className = '' }: GrowthGraphVisualProps) {
   const reduce = reduced(useReducedMotion());
+  const isSmall = useIsSmallScreen();
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const inView = useInView(containerRef, { amount: 0.25, margin: '-80px', once: true });
+  const active = !reduce && !isSmall && inView;
   const id = useVisualIds('growth');
 
   return (
-    <div className={`relative w-full ${className}`} role="img" aria-label="Compound growth engine: expanding node network with upward trajectory">
+    <div
+      ref={containerRef}
+      className={`relative w-full ${className}`}
+      role="img"
+      aria-label="Compound growth engine: expanding node network with upward trajectory"
+    >
       <svg
         viewBox="0 0 540 168"
         className="mx-auto h-auto w-full max-w-2xl"
@@ -82,9 +92,9 @@ export function GrowthGraphVisual({ className = '' }: GrowthGraphVisualProps) {
               stroke="hsl(var(--gnk-accent-2))"
               strokeWidth="0.6"
               strokeOpacity="0.28"
-              initial={reduce ? undefined : { pathLength: 0 }}
-              animate={reduce ? undefined : { pathLength: 1 }}
-              transition={{ duration: 0.9, delay: 0.04 * i, ease }}
+              initial={active ? { pathLength: 0 } : undefined}
+              animate={active ? { pathLength: 1 } : undefined}
+              transition={active ? { duration: 0.8, delay: 0.03 * i, ease } : undefined}
             />
           );
         })}
@@ -99,9 +109,9 @@ export function GrowthGraphVisual({ className = '' }: GrowthGraphVisualProps) {
             fill="none"
             strokeLinecap="round"
             opacity={i === 0 ? 0.32 : 0.18}
-            initial={reduce ? undefined : { pathLength: 0 }}
-            animate={reduce ? undefined : { pathLength: 1 }}
-            transition={{ duration: 1.2 + i * 0.1, delay: 0.06 + i * 0.06, ease }}
+            initial={active ? { pathLength: 0 } : undefined}
+            animate={active ? { pathLength: 1 } : undefined}
+            transition={active ? { duration: 1.05 + i * 0.1, delay: 0.06 + i * 0.06, ease } : undefined}
           />
         ))}
 
@@ -116,9 +126,9 @@ export function GrowthGraphVisual({ className = '' }: GrowthGraphVisualProps) {
           fill="none"
           strokeLinecap="round"
           filter={`url(#${id.filterSoft})`}
-          initial={reduce ? undefined : { pathLength: 0 }}
-          animate={reduce ? undefined : { pathLength: 1 }}
-          transition={{ duration: 1.4, ease }}
+          initial={active ? { pathLength: 0 } : undefined}
+          animate={active ? { pathLength: 1 } : undefined}
+          transition={active ? { duration: 1.1, ease } : undefined}
         />
 
         {/* Network nodes */}
@@ -142,7 +152,7 @@ export function GrowthGraphVisual({ className = '' }: GrowthGraphVisualProps) {
             />
             <circle r={n.hub ? 3.5 : 2.5} fill="hsl(var(--gnk-accent-2))" opacity={n.hub ? 0.9 : 0.55} />
             {/* Pulse on hub nodes */}
-            {n.hub && !reduce && (
+            {n.hub && active && (
               <motion.circle
                 r={n.r + 9}
                 fill="none"
@@ -157,7 +167,7 @@ export function GrowthGraphVisual({ className = '' }: GrowthGraphVisualProps) {
         ))}
 
         {/* Particle along main sweep */}
-        {!reduce && (
+        {active && (
           <>
             <circle r="3.5" fill="hsl(var(--gnk-accent-2))" opacity="0.9" filter={`url(#${id.bloom})`}>
               <animateMotion dur="7s" repeatCount="indefinite" path={sweepMain} />

@@ -16,7 +16,7 @@ export default function BlogPage() {
     <>
       <section className="border-b border-gnk-border py-16 sm:py-20">
         <Container>
-          <h1 className="font-display max-w-3xl text-4xl font-bold tracking-tight text-gnk-fg sm:text-5xl">
+          <h1 className="font-display max-w-4xl text-display-lg font-semibold text-gnk-fg">
             Insights for serious marketers.
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-gnk-muted">

@@ -2,31 +2,79 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gnk-ring focus-visible:ring-offset-2 focus-visible:ring-offset-gnk-bg disabled:pointer-events-none disabled:opacity-50';
+  'group/btn relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-semibold tracking-[-0.005em] transition-[transform,box-shadow,background-color,border-color,color] duration-300 ease-out-expo active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gnk-ring focus-visible:ring-offset-2 focus-visible:ring-offset-gnk-bg disabled:pointer-events-none disabled:opacity-50';
 
-const variants = {
-  primary: `${base} relative overflow-hidden bg-gradient-to-r from-violet-600 via-violet-500 to-cyan-500 text-white shadow-glow ring-1 ring-black/5 hover:opacity-[0.96] dark:ring-white/10`,
-  secondary: `${base} border border-gnk-border bg-gnk-card/70 text-gnk-fg shadow-inner-glow backdrop-blur-sm ring-1 ring-black/[0.04] transition hover:border-gnk-accent/40 hover:bg-gnk-accent/[0.06] dark:border-white/10 dark:bg-white/[0.04] dark:ring-white/5 dark:hover:border-violet-500/35 dark:hover:bg-white/[0.06]`,
-  ghost: `${base} text-gnk-muted transition hover:bg-gnk-accent/[0.06] hover:text-gnk-fg dark:hover:bg-white/[0.04]`,
-  outline: `${base} border border-gnk-border bg-transparent text-gnk-fg transition hover:border-gnk-accent/45 hover:bg-gnk-accent/[0.04] dark:border-white/10 dark:hover:border-violet-500/35 dark:hover:bg-transparent`,
+export const buttonVariants = {
+  primary: `${base} overflow-hidden bg-[#d8f938] text-ink shadow-[0_10px_30px_-12px_rgba(216,249,56,0.55)] hover:-translate-y-0.5 hover:bg-[#e4ff5c] hover:shadow-[0_16px_40px_-12px_rgba(216,249,56,0.7)]`,
+  secondary: `${base} border border-gnk-border bg-gnk-card/60 text-gnk-fg backdrop-blur-md hover:-translate-y-0.5 hover:border-gnk-accent/50 hover:bg-gnk-card dark:border-white/10 dark:bg-white/[0.03] dark:hover:border-white/25 dark:hover:bg-white/[0.06]`,
+  ghost: `${base} text-gnk-muted hover:text-gnk-fg`,
+  outline: `${base} border border-gnk-border bg-transparent text-gnk-fg hover:border-gnk-accent/50 hover:bg-gnk-accent/[0.05] dark:border-white/[0.12] dark:hover:border-white/25`,
 } as const;
 
-type Variant = keyof typeof variants;
+export type ButtonVariant = keyof typeof buttonVariants;
+
+/** Shine sweep + arrow nudge shared by all buttons. */
+export function ButtonInner({ children, variant, arrow }: { children: ReactNode; variant: ButtonVariant; arrow?: boolean }) {
+  return (
+    <>
+      {variant === 'primary' ? (
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 -skew-x-12 bg-gradient-to-r from-transparent via-white/60 to-transparent opacity-0 transition-[transform,opacity] duration-700 ease-out-expo group-hover/btn:translate-x-[300%] group-hover/btn:opacity-100"
+        />
+      ) : null}
+      <span className="relative z-[1] inline-flex items-center gap-2">
+        {children}
+        {arrow ? (
+          <svg
+            aria-hidden
+            viewBox="0 0 16 16"
+            className="h-3.5 w-3.5 transition-transform duration-300 ease-out-expo group-hover/btn:translate-x-0.5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M3 8h10M9 4l4 4-4 4" />
+          </svg>
+        ) : null}
+      </span>
+    </>
+  );
+}
 
 export function ButtonLink({
   href,
   children,
   variant = 'primary',
   className = '',
+  arrow,
 }: {
   href: string;
   children: ReactNode;
-  variant?: Variant;
+  variant?: ButtonVariant;
   className?: string;
+  /** Defaults to true for primary buttons */
+  arrow?: boolean;
 }) {
+  const external = /^(https?:|mailto:|tel:)/.test(href);
+  const showArrow = arrow ?? variant === 'primary';
+  const cls = `${buttonVariants[variant]} ${className}`;
+  if (external) {
+    return (
+      <a href={href} className={cls} {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+        <ButtonInner variant={variant} arrow={showArrow}>
+          {children}
+        </ButtonInner>
+      </a>
+    );
+  }
   return (
-    <Link href={href} className={`${variants[variant]} ${className}`}>
-      {children}
+    <Link href={href} className={cls}>
+      <ButtonInner variant={variant} arrow={showArrow}>
+        {children}
+      </ButtonInner>
     </Link>
   );
 }
@@ -36,11 +84,14 @@ export function Button({
   children,
   variant = 'primary',
   className = '',
+  arrow,
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant }) {
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: ButtonVariant; arrow?: boolean }) {
   return (
-    <button type={type} className={`${variants[variant]} ${className}`} {...props}>
-      {children}
+    <button type={type} className={`${buttonVariants[variant]} ${className}`} {...props}>
+      <ButtonInner variant={variant} arrow={arrow ?? false}>
+        {children}
+      </ButtonInner>
     </button>
   );
 }

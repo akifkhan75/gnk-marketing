@@ -4,7 +4,7 @@ import { ButtonLink } from '@/components/marketing/Button';
 import { Container } from '@/components/marketing/Container';
 import { JsonLd } from '@/components/marketing/JsonLd';
 import { AI_SERVICES, getAIServiceBySlug, getAllAIServiceSlugs } from '@/lib/ai-services';
-import { buildPageMetadata, serviceJsonLd } from '@/lib/seo';
+import { breadcrumbJsonLd, buildPageMetadata, faqPageJsonLd, serviceJsonLd } from '@/lib/seo';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -35,9 +35,16 @@ export default async function AIServicePage({ params }: Props) {
     path: `/services/ai/${service.slug}`,
   });
 
+  const faqLd = faqPageJsonLd({
+    path: `/services/ai/${service.slug}`,
+    questions: service.faqs.map((f) => ({ question: f.q, answer: f.a })),
+  });
+
   return (
     <>
       <JsonLd data={jsonLd} />
+      <JsonLd data={faqLd} />
+      <JsonLd data={breadcrumbJsonLd([{ name: 'Services', path: '/services' }, { name: 'AI systems', path: '/services/ai' }, { name: service.title, path: `/services/ai/${service.slug}` }])} />
       <section className="border-b border-gnk-border py-14 sm:py-16">
         <Container>
           <nav className="text-sm text-gnk-muted">
@@ -51,7 +58,7 @@ export default async function AIServicePage({ params }: Props) {
             <span className="mx-2">/</span>
             <span className="text-gnk-fg">{service.title}</span>
           </nav>
-          <h1 className="font-display mt-6 max-w-3xl text-4xl font-bold tracking-tight text-gnk-fg sm:text-5xl">
+          <h1 className="font-display mt-6 max-w-4xl text-display-lg font-semibold text-gnk-fg">
             {service.title}
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-gnk-muted">{service.shortDescription}</p>

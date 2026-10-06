@@ -118,7 +118,7 @@ export function HomeAIShowcaseIconCards() {
             description={item.shortDescription}
             compact
             footer={
-              <span className="text-xs font-semibold text-gnk-accent-2 transition group-hover/iconcard:opacity-90 dark:text-cyan-400/90">
+              <span className="text-xs font-semibold inline-flex items-center gap-1 text-gnk-muted transition-colors group-hover/card:text-gnk-fg">
                 Explore →
               </span>
             }
@@ -142,7 +142,7 @@ export function HomeServicesIconCards({ services }: { services: Service[] }) {
             title={s.title}
             description={s.shortDescription}
             footer={
-              <span className="text-sm font-medium text-gnk-accent-2 transition group-hover/iconcard:opacity-90 dark:text-cyan-400/90">
+              <span className="text-sm font-medium inline-flex items-center gap-1 text-gnk-muted transition-colors group-hover/card:text-gnk-fg">
                 Explore →
               </span>
             }

@@ -1,8 +1,9 @@
 'use client';
 
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useInView, useReducedMotion } from 'framer-motion';
+import { useRef } from 'react';
 import { RichSvgDefs } from './rich-svg-defs';
-import { reduced, useVisualIds } from './visual-utils';
+import { reduced, useIsSmallScreen, useVisualIds } from './visual-utils';
 
 type ConversationGraphVisualProps = { className?: string };
 
@@ -41,12 +42,17 @@ const edges: { from: string; to: string; d: string; primary?: boolean }[] = [
 
 export function ConversationGraphVisual({ className = '' }: ConversationGraphVisualProps) {
   const reduce = reduced(useReducedMotion());
+  const isSmall = useIsSmallScreen();
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const inView = useInView(containerRef, { amount: 0.25, margin: '-80px', once: true });
+  const active = !reduce && !isSmall && inView;
   const id = useVisualIds('conv');
 
   const nodeMap = Object.fromEntries(nodes.map((n) => [n.id, n]));
 
   return (
     <div
+      ref={containerRef}
       className={`relative w-full ${className}`}
       role="img"
       aria-label="AI conversation routing graph: intake to policy, router, and booking paths"
@@ -86,9 +92,9 @@ export function ConversationGraphVisual({ className = '' }: ConversationGraphVis
             strokeLinecap="round"
             opacity={e.primary ? 0.65 : 0.32}
             vectorEffect="non-scaling-stroke"
-            initial={reduce ? undefined : { pathLength: 0 }}
-            animate={reduce ? undefined : { pathLength: 1 }}
-            transition={{ duration: 0.85, delay: 0.04 * i, ease }}
+            initial={active ? { pathLength: 0 } : undefined}
+            animate={active ? { pathLength: 1 } : undefined}
+            transition={active ? { duration: 0.78, delay: 0.03 * i, ease } : undefined}
           />
         ))}
 
@@ -117,7 +123,7 @@ export function ConversationGraphVisual({ className = '' }: ConversationGraphVis
             {/* Center dot */}
             <circle r={n.hub ? 4 : 2.8} fill="hsl(var(--gnk-accent-2))" opacity={n.hub ? 0.9 : 0.55} />
             {/* Pulse on hub */}
-            {n.hub && !reduce && (
+            {n.hub && active && (
               <motion.circle
                 r={n.r + 12}
                 fill="none"
@@ -157,7 +163,7 @@ export function ConversationGraphVisual({ className = '' }: ConversationGraphVis
         ))}
 
         {/* Traveling particles on primary edges */}
-        {!reduce && (
+        {active && (
           <>
             <circle r="3" fill="hsl(var(--gnk-accent-2))" opacity="0.88" filter={`url(#${id.bloom})`}>
               <animateMotion dur="3.5s" repeatCount="indefinite" path="M 200 22 L 200 100" />

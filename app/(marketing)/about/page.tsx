@@ -31,7 +31,7 @@ export default function AboutPage() {
     <>
       <section className="border-b border-gnk-border py-16 sm:py-20">
         <Container>
-          <h1 className="font-display max-w-3xl text-4xl font-bold tracking-tight text-gnk-fg sm:text-5xl">
+          <h1 className="font-display max-w-4xl text-display-lg font-semibold text-gnk-fg">
             A modern agency for teams who want growth—and governance.
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-gnk-muted">
@@ -45,7 +45,7 @@ export default function AboutPage() {
       {/* Process flow system diagram */}
       <section className="border-b border-gnk-border/60 bg-gnk-card/20 py-14 dark:border-white/[0.05] dark:bg-gnk-card/10 sm:py-18">
         <Container>
-          <p className="text-center font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-gnk-accent dark:text-violet-400/80">
+          <p className="eyebrow flex justify-center">
             How we work
           </p>
           <h2 className="mt-3 text-center font-display text-2xl font-bold text-gnk-fg sm:text-3xl">

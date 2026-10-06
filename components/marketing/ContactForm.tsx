@@ -65,7 +65,7 @@ export function ContactForm({
     <form onSubmit={onSubmit} className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gnk-fg">
+          <label htmlFor="name" className="block text-[13px] font-medium text-gnk-fg">
             Name
           </label>
           <input
@@ -73,12 +73,12 @@ export function ContactForm({
             name="name"
             required
             autoComplete="name"
-            className="mt-1.5 w-full rounded-xl border border-gnk-border bg-gnk-bg px-4 py-2.5 text-sm text-gnk-fg outline-none ring-gnk-ring placeholder:text-gnk-muted focus:ring-2"
+            className="mt-2 w-full rounded-xl border border-gnk-border bg-gnk-bg/60 px-4 py-3 text-sm text-gnk-fg outline-none transition-[border-color,box-shadow] placeholder:text-gnk-muted/70 hover:border-gnk-muted/40 focus:border-gnk-accent/70 focus:shadow-[0_0_0_4px_hsl(var(--gnk-accent)/0.15)] dark:border-white/10"
             placeholder="Alex Rivera"
           />
         </div>
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gnk-fg">
+          <label htmlFor="email" className="block text-[13px] font-medium text-gnk-fg">
             Work email
           </label>
           <input
@@ -87,25 +87,25 @@ export function ContactForm({
             type="email"
             required
             autoComplete="email"
-            className="mt-1.5 w-full rounded-xl border border-gnk-border bg-gnk-bg px-4 py-2.5 text-sm text-gnk-fg outline-none ring-gnk-ring placeholder:text-gnk-muted focus:ring-2"
+            className="mt-2 w-full rounded-xl border border-gnk-border bg-gnk-bg/60 px-4 py-3 text-sm text-gnk-fg outline-none transition-[border-color,box-shadow] placeholder:text-gnk-muted/70 hover:border-gnk-muted/40 focus:border-gnk-accent/70 focus:shadow-[0_0_0_4px_hsl(var(--gnk-accent)/0.15)] dark:border-white/10"
             placeholder="you@company.com"
           />
         </div>
       </div>
       <div>
-        <label htmlFor="company" className="block text-sm font-medium text-gnk-fg">
+        <label htmlFor="company" className="block text-[13px] font-medium text-gnk-fg">
           Company (optional)
         </label>
         <input
           id="company"
           name="company"
           autoComplete="organization"
-          className="mt-1.5 w-full rounded-xl border border-gnk-border bg-gnk-bg px-4 py-2.5 text-sm text-gnk-fg outline-none ring-gnk-ring placeholder:text-gnk-muted focus:ring-2"
+          className="mt-2 w-full rounded-xl border border-gnk-border bg-gnk-bg/60 px-4 py-3 text-sm text-gnk-fg outline-none transition-[border-color,box-shadow] placeholder:text-gnk-muted/70 hover:border-gnk-muted/40 focus:border-gnk-accent/70 focus:shadow-[0_0_0_4px_hsl(var(--gnk-accent)/0.15)] dark:border-white/10"
           placeholder="Acme Inc."
         />
       </div>
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-gnk-fg">
+        <label htmlFor="message" className="block text-[13px] font-medium text-gnk-fg">
           How can we help?
         </label>
         <textarea
@@ -113,12 +113,12 @@ export function ContactForm({
           name="message"
           required
           rows={5}
-          className="mt-1.5 w-full resize-y rounded-xl border border-gnk-border bg-gnk-bg px-4 py-2.5 text-sm text-gnk-fg outline-none ring-gnk-ring placeholder:text-gnk-muted focus:ring-2"
+          className="mt-2 w-full resize-y rounded-xl border border-gnk-border bg-gnk-bg/60 px-4 py-3 text-sm text-gnk-fg outline-none transition-[border-color,box-shadow] placeholder:text-gnk-muted/70 hover:border-gnk-muted/40 focus:border-gnk-accent/70 focus:shadow-[0_0_0_4px_hsl(var(--gnk-accent)/0.15)] dark:border-white/10"
           placeholder="Goals, timeline, budget range, and what “winning” looks like for you."
         />
       </div>
       {error ? <p className="text-sm text-red-600 dark:text-red-400">{error}</p> : null}
-      <Button type="submit" variant="primary" disabled={status === 'loading'} className="w-full sm:w-auto">
+      <Button type="submit" variant="primary" disabled={status === 'loading'} className="w-full !py-3 sm:w-auto" arrow>
         {status === 'loading' ? 'Sending…' : submitLabel}
       </Button>
     </form>
