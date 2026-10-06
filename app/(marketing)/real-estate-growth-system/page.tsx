@@ -147,7 +147,7 @@ export default function RealEstateGrowthSystemPage() {
               </ButtonLink>
             </div>
 
-            <div className="mt-14 rounded-4xl border border-gnk-border/70 bg-gnk-card/25 px-4 py-10 shadow-glow-lg dark:border-white/[0.08] dark:bg-gnk-card/10 sm:px-8 sm:py-12">
+            <div className="gradient-border mt-14 rounded-4xl bg-gnk-card/40 px-4 py-10 backdrop-blur-xl sm:px-8 sm:py-12">
               <SectionHeading
                 eyebrow="System map"
                 title="One pipeline. Two lanes. Measured at every step."
