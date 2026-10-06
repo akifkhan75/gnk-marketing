@@ -12,6 +12,7 @@ const staticPaths = [
   '/services/ai-lead-generation',
   '/services/ai-automation',
   '/real-estate-growth-system',
+  '/studio',
   '/case-studies',
   '/blog',
   '/contact',

@@ -14,6 +14,7 @@ const footerAI = AI_SERVICES.slice(0, 6);
 
 const company = [
   { href: '/about', label: 'About' },
+  { href: '/studio', label: 'Studio' },
   { href: '/case-studies', label: 'Case studies' },
   { href: '/real-estate-growth-system', label: 'Real estate system' },
   { href: '/pricing', label: 'Pricing' },

@@ -11,6 +11,7 @@ import { AI_SERVICES } from '@/lib/ai-services';
 import { SERVICES } from '@/lib/services';
 
 const primaryNav = [
+  { href: '/studio', label: 'Studio' },
   { href: '/real-estate-growth-system', label: 'Real estate' },
   { href: '/case-studies', label: 'Case studies' },
   { href: '/pricing', label: 'Pricing' },
