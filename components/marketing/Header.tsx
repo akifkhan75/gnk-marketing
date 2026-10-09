@@ -77,7 +77,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 px-3 pt-3 sm:px-4">
       <div
-        className={`mx-auto flex h-16 max-w-[1240px] items-center justify-between gap-4 rounded-2xl border px-4 transition-[background-color,border-color,box-shadow,backdrop-filter] duration-500 ease-out-expo sm:px-5 ${
+        className={`relative mx-auto flex h-16 max-w-[1240px] items-center justify-between gap-4 rounded-2xl border px-4 transition-[background-color,border-color,box-shadow,backdrop-filter] duration-500 ease-out-expo sm:px-5 ${
           scrolled || open || megaOpen
             ? 'border-gnk-border/80 bg-gnk-bg/75 shadow-[0_10px_40px_-20px_rgba(0,0,0,0.6)] backdrop-blur-2xl backdrop-saturate-150 dark:border-white/[0.07]'
             : 'border-transparent bg-transparent'
@@ -86,7 +86,7 @@ export function Header() {
         <Logo />
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
-          <div ref={megaRef} className="relative" onMouseEnter={openMega} onMouseLeave={scheduleClose}>
+          <div ref={megaRef} onMouseEnter={openMega} onMouseLeave={scheduleClose}>
             <button
               type="button"
               className={`inline-flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${
@@ -103,12 +103,12 @@ export function Header() {
 
             <div
               id="mega-services"
-              className={`absolute left-1/2 top-full w-[min(880px,calc(100vw-2rem))] -translate-x-1/2 pt-4 transition-[opacity,transform,visibility] duration-300 ease-out-expo ${
+              className={`absolute left-1/2 top-full w-[min(880px,100%)] -translate-x-1/2 pt-4 transition-[opacity,transform,visibility] duration-300 ease-out-expo ${
                 megaOpen ? 'visible translate-y-0 opacity-100' : 'invisible -translate-y-2 opacity-0'
               }`}
             >
               <div className="gradient-border overflow-hidden rounded-3xl bg-gnk-bg-elevated shadow-glow-lg">
-                <div className="grid grid-cols-[1.35fr_1fr]">
+                <div className="grid grid-cols-[1.35fr_1fr] max-h-[calc(100vh-8rem)] overflow-y-auto">
                   <div className="p-6">
                     <p className="eyebrow">Marketing services</p>
                     <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-0.5">
