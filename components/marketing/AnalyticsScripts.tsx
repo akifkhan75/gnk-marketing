@@ -5,7 +5,7 @@ import Script from 'next/script';
 /** Read env in the client chunk only — avoids pulling `lib/site` into the browser bundle. */
 function analyticsIds() {
   return {
-    ga: process.env.NEXT_PUBLIC_GA4_ID ?? '',
+    ga: process.env.NEXT_PUBLIC_GA4_ID || 'G-5JHTBN8548',
     pixel: process.env.NEXT_PUBLIC_META_PIXEL_ID ?? '',
   };
 }
